@@ -1,0 +1,12 @@
+{
+    "title": "NextCoinflip",
+    "description": "The best coinflip plugin for your server!",
+    "pages": [
+      "features-and-installation",
+      "commands-and-permissions",
+      "placeholders",
+      "developer-api"
+    ],
+    "defaultOpen": false,
+    "root": false
+}

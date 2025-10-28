@@ -1,0 +1,32 @@
+---
+title: Commands
+description: NextCollectors commands
+layout: ../../../layouts/MainLayout.astro
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+
+## Super Command with Aliases:
+
+- /nextcollectors
+- /nextcollector
+- /chunkcollectors
+- /chunkcollector
+- /collectors
+- /collector
+
+```
+[] = Optional
+<> = Required
+```
+
+| Subcommand          | Description        | isAdmin |
+| ------------------- | ------------------ | ------- |
+| trust               | trust certain member to access your chunk collector | false |
+| untrust             | untrust certain member from accessing your chunk collector | false |
+| pickupall `[player]` | pick up all of your chunk collectors |true/false | 
+| give `<player>` `[amount]` | give chunk collector to specific player | true |
+| addmax `<player>` `[amount]` | add max chunk collectors to player | true |
+| removemax `<player>` `[amount]` | remove max chunk collectors from player | true |
+| setmax `<player>` `[amount]` | set max chunk collectors for player | true |
+| reload | reload the configuration | true |took max chunk collectors from player |

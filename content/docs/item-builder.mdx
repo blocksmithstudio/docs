@@ -1,0 +1,58 @@
+---
+title: Item Builder
+showTitle: false
+seoTitle: Blocksmith Studios | Item Builder
+---
+
+# What is Item Builder?
+The Item Builder is a powerful library developed by Blocksmith Studios that makes it easy for configurators and developers to create custom items for our plugins.
+With the Item Builder, you can instantly generate items that work with ItemsAdder or Nexo all through one simple and unified system.
+<Callout>ItemBuilder is one of the helpers provided by [MDLib](https://github.com/mdaffa48)</Callout>
+
+## Item Configuration Tutorial
+In this tutorial you will learn how to create an item with the help of a external plugin such as ItemsAdder, Nexo, or HeadDatabase.
+Almost every configurable item on our plugins will have this format.
+
+### External Plugin Help
+#### Nexo
+```yaml
+something:
+    material: nexo;<nexo-id>
+    display-name: "..."
+```
+
+#### ItemsAdder
+```yaml
+something:
+    material: ia;<itemsadder-id>
+    display-name: "..."
+```
+
+#### HeadDatabase
+```yaml
+something:
+    material: hdb;<value>
+    display-name: "..."
+```
+
+### Full Configuration Example
+This is the full configuration example to create an item with our library, keep in mind some of the options might not be available
+for your selected material, for example `color` option might not be applicable to item that can't be colored.
+```yaml
+something:
+    material: STONE
+    display-name: "..."
+    custom-model-data: 1001 # The custom model data of the item
+    amount: 1 # Amount cannot be below 1
+    lore:
+      - "..."
+    flags: # Found the list of ItemFlag at https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/inventory/ItemFlag.html
+      - HIDE_ATTRIBUTES
+    enchantments: # Format <ENCHANTMENT>;<LEVEL>
+      - SHARPNESS;5
+    color: # To change the color of the item, usually used for leather armor
+      r: 255
+      g: 0
+      b: 0
+```
+<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>

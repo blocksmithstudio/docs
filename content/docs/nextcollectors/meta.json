@@ -1,0 +1,18 @@
+{
+    "title": "NextCollectors",
+    "description": "The best Chunk Collector plugins in the market!",
+    "pages": [
+      "features",
+      "installation",
+      "---Utilities---",
+      "commands",
+      "placeholders",
+      "permission",
+      "depedencies",
+      "---Developer---",
+      "api",
+      "api_object"
+    ],
+    "defaultOpen": false,
+    "root": false
+}
