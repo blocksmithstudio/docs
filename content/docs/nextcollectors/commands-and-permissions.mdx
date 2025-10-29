@@ -1,0 +1,40 @@
+---
+title: Commands & Permissions
+showTitle: false
+seoTitle: NextCollectors | Commands & Permissions
+description: NextCollectors Commands and Permissions Page
+layout: ../../../layouts/MainLayout.astro
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+
+## Commands & Permissions
+
+<Callout title="Information" type="info">
+  [] = Optional<br/>
+  &lt;&gt; = Required
+</Callout>
+
+### Player Commands
+| Command          | Description        | Permission |
+| ---------------- | ------------------ | ---------- |
+| collectors | Shows the help messages | |
+| collectors trust `<player>` | Give other player access to your chunk collector. | nextcollectors.trust |
+| collectors untrust `<player>` | Revoke other player access to your chunk collector. | nextcollectors.trust | 
+| collectors pickupall `[player]` | Pick up all collectors that you own at once. | nextcollectors.pickupall, nextcollectors.pickupall.others |
+| collectors autosellsummary | Toggle the auto sell summary message | |
+
+### Admin Commands
+| Command          | Description        | Permission |
+| ---------------- | ------------------ | ---------- |
+| collectors | Shows the help messages | nextcollectors.admin |
+| collectors give `<player>` `[amount]` | Give chunk collector to player | nextcollectors.admin |
+| collectors addmax `<player>` `<amount>` | Add maximum amount of collectors that player can place | nextcollectors.admin |
+| collectors removemax `<player>` `<amount>` | Reduce the maximum amount of collectors that player can place | nextcollectors.admin |
+| collectors setmax `<player>` `<amount>` | Set the maximum amount of collectors that player can place | nextcollectors.admin |
+| collectors teleport `<player>` | Teleport to selected player's chunk collector | nextcollectors.admin |
+| collectors reload | Reload the configuration | nextcollectors.admin |
+| collectors convert | Convert database from SQLite to MySQL and vice-versa | nextcollectors.admin |
+| collectors info | Shows chunk collectors data/statistics on your server | nextcollectors.admin |
+
+<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>

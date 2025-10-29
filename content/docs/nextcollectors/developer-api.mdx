@@ -1,0 +1,66 @@
+---
+title: Developer API
+showTitle: false
+seoTitle: NextCollectors | Developer API
+description: You can use NextCollectors API that we provide to customize to your likings!
+---
+
+## Developer API
+But firstly we need to put this plugin as our depedencies. And how do we do that?
+We provide a tutorial on how to do that just by below here!
+
+<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>
+
+```xml tab="Maven"
+<dependency>
+    <groupId>com.muhammaddaffaa</groupId>
+    <artifactId>NextCollector</artifactId>
+    <version>LATEST</version>
+    <scope>system</scope>
+    <systemPath>${project.basedir}/libs/NextCollectors.jar</systemPath>
+</dependency>
+```
+
+```groovy tab="Gradle"
+dependencies {
+    implementation files("${projectDir}/libs/NextCollectors.jar")
+}
+```
+
+## Events
+List of custom events on NextCollectors.
+| Class | Description |
+|-------|-------------|
+| CollectorEvent | This event is like the root event, every collector related event this class is being used. |
+| CollectorCollectEvent | Called when the chunk collector collects an item |
+| CollectorSellEvent | Called when player sell collector's content |
+| CollectorSellAllEvent | Called when player sell all collector's content |
+| CollectorSellOneEvent | Called when player sell only one item type from the collector |
+
+## Examples
+Below are multiple examples on how to use the API
+
+### How to multiply item receives by the collector
+```java
+@EventHandler
+private void onCollect(CollectorCollectEvent event) {
+    if (true) {
+        event.setAmount(event.getAmount() * 2)
+    }
+}
+```
+
+### How to get all player's chunk collectors
+```java
+private List<ChunkCollector> getChunkCollectors(Player player) {
+    User user = UserRepository.getUser(player);
+    List<ChunkCollector> list = new ArrayList<>();
+    for (UUID uuid : user.getChunkCollectors()) {
+        ChunkCollector collector = ChunkCollectorRepository.getCollector(uuid);
+        if (collector != null) {
+            list.add(collector);
+        }
+    }
+    return list;
+}
+```
