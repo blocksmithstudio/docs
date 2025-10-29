@@ -12,32 +12,26 @@ import { Step, Steps } from 'fumadocs-ui/components/steps'
 But firstly we need to put this plugin as our depedencies. And how do we do that? Follow the tutorial below.
 <Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>
 
-<Steps>
-<Step>
-First put this code in your `pom.xml` file if you're using Maven
-
-```xml
+```xml tab="Maven"
 <dependency>
     <groupId>com.muhammaddaffa</groupId>
-    <artifactId>NextCoinFlip</artifactId>
+    <artifactId>NextCoinflip</artifactId>
     <version>LATEST</version>
     <scope>system</scope>
-    <systemPath>${project.basedir}/libs/NextCoinFlip.jar</systemPath>
+    <systemPath>${project.basedir}/libs/NextCoinflip.jar</systemPath>
 </dependency>
 ```
-If you're using Gradle, put this code in your `build.gradle` file
 
-```groovy
+```groovy tab="Gradle"
 dependencies {
-    implementation files("${projectDir}/libs/NextCoinFlip.jar")
+    implementation files("${projectDir}/libs/NextCoinflip.jar")
 }
 ```
 
-</Step>
-<Step>
-Secondly after you added NextCoinFlip to your dependencies, you can now use it in your code!
+## Examples
+These are examples on how to use the API.
 
-Here's the example on getting player's statistic data
+### How to get player's statistic data
 
 ```java
 
@@ -48,5 +42,3 @@ private int getWins(Player player) {
     return statistic.getWins();
 }
 ```
-</Step>
-</Steps>
