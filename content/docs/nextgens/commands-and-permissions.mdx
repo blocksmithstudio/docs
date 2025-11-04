@@ -1,0 +1,54 @@
+---
+title: Commands & Permissions
+showTitle: false
+seoTitle: NextGens | Commands & Permissions
+description: NextGens Commands and Permissions Page
+layout: ../../../layouts/MainLayout.astro
+---
+
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+
+## Commands & Permissions
+
+<Callout title="Information" type="info">
+  [] = Optional<br/>
+  &lt;&gt; = Required
+</Callout>
+
+### Player Commands
+| Command          | Description        | Permission |
+| ---------------- | ------------------ | ---------- |
+| gens | Shows the help messages | |
+| gens help | Shows the help messages | |
+| gens view `[player]` | Shows the list of generators that player have in a gui | nextgens.view, nextgens.view.others |
+| gens trust add `<player>` | Add player to your trust list | |
+| gens trust remove `<player>` | Remove player from your trust list | |
+| gens list | Show the list trusted players | |
+| genshop | Open up the shop menu | |
+| upgradegens | Open up the bulk upgrade menu | nextgens.upgradegens |
+| pickupgens `[player]` | Pick up all gens at once | nextgens.pickup, nextgens.pickup.others |
+| repairgens | Repair all corrupted gens at once | nextgens.repairgens |
+| sell `[player]` | Sell player's inventory | nextgens.sell, nextgens.sell.others |
+| worth | Shows the worth of the item that player holds | nextgens.worth |
+| settings | Open up the player settings menu | nextgens.settings |
+
+### Admin Commands
+| Command          | Description        | Permission |
+| ---------------- | ------------------ | ---------- |
+| gens give `<player> <generator> [amount]` | Give generator to player | nextgens.admin |
+| gens addmax `<player> <amount>` | Add bonus max generator to player | nextgens.admin |
+| gens removemax `<player> <amount>` | Remove bonus max generator from player | nextgens.admin |
+| gens resetmax `<player>` | Reset the bonus max generator from player | nextgens.admin |
+| gens repair `<player>` | Repair corrupted generators from player(s) | nextgens.admin |
+| gens startevent `<event>` | Start a specific event | nextgens.admin |
+| gens stopevent | Stop any ongoing event | nextgens.admin |
+| gens sellwand `<player> <multiplier> <uses>` | Give sellwand to player | nextgens.admin |
+| gens addmultiplier `<player> <amount>` | Add sell multiplier to player | nextgens.admin |
+| gens removemultiplier `<player> <amount>` | Remove sell multiplier from player | nextgens.admin |
+| gens setmultiplier `<player> <amount>` | Set the player multiplier amount | nextgens.admin |
+| gens removegenerators `<player>` | Remove all generators from specific player | nextgens.admin |
+| gens reload | Reload the configuration | nextgens.admin |
+
+<Callout>
+If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).
+</Callout>

@@ -1,0 +1,14 @@
+{
+    "title": "NextGens",
+    "description": "All-in-one solution for gens/tycoon plugin optimized for big networks",
+    "pages": [
+      "features-and-installation",
+      "commands-and-permissions",
+      "placeholders",
+      "developer-api",
+      "[Download on Spigot](https://www.spigotmc.org/resources/nextgens-minecraft-gens-tycoon-plugin.111857/)",
+      "[Download on BuiltByBit](https://builtbybit.com/resources/nextgens.30903/)"
+    ],
+    "defaultOpen": false,
+    "root": false
+}
