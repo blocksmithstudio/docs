@@ -13,7 +13,15 @@ With the Item Builder, you can instantly generate items that work with ItemsAdde
 In this tutorial you will learn how to create an item with the help of a external plugin such as ItemsAdder, Nexo, or HeadDatabase.
 Almost every configurable item on our plugins will have this format.
 
-### External Plugin Help
+### Special Material Input
+
+#### Head
+```yaml
+something:
+    material: head;<base64|player_name>
+    display-name: "..."
+```
+
 #### Nexo
 ```yaml
 something:
@@ -38,6 +46,9 @@ something:
 ### Full Configuration Example
 This is the full configuration example to create an item with our library, keep in mind some of the options might not be available
 for your selected material, for example `color` option might not be applicable to item that can't be colored.
+
+<Callout>You can use any placeholders from PlaceholderAPI when configuring item on all of our plugins.</Callout>
+
 ```yaml
 something:
     material: STONE
