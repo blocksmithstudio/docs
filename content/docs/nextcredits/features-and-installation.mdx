@@ -12,7 +12,7 @@ import { Step, Steps } from 'fumadocs-ui/components/steps'
 
 **NextCredits** is the ultimate lightweight credits plugin for your Minecraft server. It gives you a second currency
 that lives completely outside of your economy plugin, a fully configurable shop system to spend it in, and it was
-designed from the ground up for networks: MySQL as the single source of truth, optional Redis and proxy synchronization,
+designed from the ground up for networks: MySQL as the single source of truth, optional Redis for instant updates,
 and every credit change written to a transaction log.
 
 | **Features** | **Description** |
@@ -20,7 +20,7 @@ and every credit change written to a transaction log.
 | **Unlimited Shops** | Create as many shop menus as you want, each one in its own file. |
 | **Unlimited Products** | Define products in separate files and reuse them across multiple shops. |
 | **Shop Discounts** | Run timed discount campaigns on a single product, a whole category, or the entire shop. |
-| **Multi-Server Sync** | Keep balances consistent across your whole network with MySQL, plus optional Redis and proxy messaging. |
+| **Multi-Server Sync** | Keep balances consistent across your whole network with MySQL, plus optional Redis for instant updates. No proxy plugin needed. |
 | **Transaction Logs** | Every give, take, set, pay and purchase is recorded in the database. |
 | **Safe Transactions** | Credits are debited before rewards are given, so a failed purchase never hands out free products. |
 | **Confirmation Menu** | Optional confirmation screen before a purchase goes through. |
@@ -105,7 +105,8 @@ sync-batch-size: 100
 ### Instant updates with Redis
 The periodic sync above is enough for most networks, but if you want balance changes to show up on the other servers
 right away, you can enable Redis. MySQL always stays the source of truth, Redis is only used as a fast
-"this player's balance changed" signal.
+"this player's balance changed" signal: the server that changed a balance publishes the player's UUID, and every other
+server reloads that one player from the database.
 
 ```yaml
 redis:
@@ -119,9 +120,18 @@ redis:
   channel: "nextcredits:sync"
 ```
 
-### Proxy plugin
-NextCredits also ships proxy jars for **BungeeCord** and **Velocity**. Drop the matching jar into your proxy's
-`plugins` folder and it will forward credit updates between your servers over the `nextcredits:channel`
-plugin messaging channel. No configuration is needed on the proxy side.
+| Option | Description |
+|--------|-------------|
+| `channel` | The Redis pub/sub channel used for the invalidation signal. Keep it identical on every server. |
+| `timeout` | Connection and socket timeout, in milliseconds |
+| `password` | Leave empty if your Redis instance has no password |
+
+<Callout type="warning">Redis sync **requires MySQL**. If `mysql.enabled` is `false`, NextCredits logs a warning and
+Redis sync never starts. A wrong password stops the sync as well, so check your console after enabling it.</Callout>
+
+<Callout title="Information" type="info">
+No proxy plugin is needed. NextCredits synchronizes purely through MySQL, with Redis as the optional instant-update
+layer, so you never have to install anything on your BungeeCord or Velocity proxy.
+</Callout>
 
 <Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>
