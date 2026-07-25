@@ -4,6 +4,8 @@
     "pages": [
       "features-and-installation",
       "commands-and-permissions",
+      "generators-and-events",
+      "holograms",
       "placeholders",
       "developer-api",
       "[Download on Spigot](https://www.spigotmc.org/resources/nextgens-minecraft-gens-tycoon-plugin.111857/)",

@@ -1,0 +1,210 @@
+---
+title: Generators & Events
+showTitle: false
+seoTitle: NextGens | Generators & Events
+description: How to create your own generators and configure gens events on NextGens
+layout: ../../../layouts/MainLayout.astro
+---
+
+## Generators
+Every generator lives inside the `generators` folder, and you can split them into as many files as you want.
+A file can hold one generator or a hundred, NextGens loads all of them on startup.
+
+<Callout>Generator ids must be unique across **all** files. If two generators share the same id, only one of them will be loaded.</Callout>
+
+Here is a fully commented example of a single generator.
+
+```yaml
+# This must be unique
+wheat_generator:
+  # The display name of the generator that will be used across messages
+  display-name: "#D8A073&lWheat Generator"
+  # How often should the generator drop? (in seconds)
+  interval: 20
+  # If the generator is corrupted, it will break occasionally and the player needs
+  # to fix it by shift + right-clicking the generator and paying the cost below
+  corrupted:
+    enabled: true
+    cost: 12.5 # The cost to fix the corruption
+    chance: 0.25 # Chance that the generator will be broken
+  upgrade:
+    # The generator that will be used upon upgrading
+    # If you don't want the generator to be upgradeable, simply put "null"
+    next-generator: melon_generator
+    upgrade-cost: 50
+  # The generator item itself
+  item:
+    material: HAY_BLOCK
+    display-name: "#D8A073&lWheat Generator"
+    # item-model: "minecraft:wheat"
+    enchantments: [ ] # Format: <ENCHANT>;<LEVEL>, example: DURABILITY;1
+    flags: [ ] # Example: HIDE_ATTRIBUTES, HIDE_ENCHANTS
+    custom-model-data: 0
+    lore:
+      - "&8Purchasable Generator"
+      - "&7&oPlace down to activate the generator"
+  # List of drops that can be dropped from this generator
+  drops:
+    '0': # Unique identifier, it could be anything
+      chance: 60 # The chance that this drop will be chosen
+      sell-value: 8 # The sell value of the drop item
+      commands: [ ] # Commands that will be executed instead of / along with the drop
+      item:
+        material: WHEAT
+        display-name: "&e&lWheat &a(/sell for money)"
+        custom-model-data: 0
+        lore:
+          - "&7Use &a/sell &7to sell this for &a&n$8"
+```
+
+### Generator options
+| Option | Description |
+|--------|-------------|
+| `display-name` | The name used across messages and menus |
+| `interval` | How often the generator produces a drop, in seconds |
+| `corrupted.enabled` | Whether this generator can be corrupted at all |
+| `corrupted.cost` | How much money the player pays to fix it |
+| `corrupted.chance` | The chance for this generator to be picked during a corruption wave |
+| `upgrade.next-generator` | The generator id this one upgrades into, use `null` to make it the final tier |
+| `upgrade.upgrade-cost` | How much money the upgrade costs |
+| `online-only` | Optional, only generate drops when the owner is online |
+| `item` | The generator item, follows the standard item format (material, display-name, lore, enchantments, flags, custom-model-data, item-model) |
+| `drops` | List of possible drops, see below |
+| `place-requirements` | Requirements the player must meet to place the generator |
+| `upgrade-requirements` | Requirements the player must meet to upgrade the generator |
+
+### Drops
+Each entry under `drops` needs a unique key, and NextGens picks one of them every interval based on `chance`.
+
+| Option | Description |
+|--------|-------------|
+| `chance` | Weight of the drop, the higher the value the more often it is chosen |
+| `sell-value` | The sell value that is stored on the dropped item, so `/sell` and sellwands know its worth |
+| `commands` | Commands executed from console when this drop is chosen |
+| `item` | The dropped item, can be omitted if you only want to run commands |
+
+<Callout title="Information" type="info">
+Commands support the `{player}`, `{x}`, `{y}`, `{z}`, `{world}` and `{world_lower}` placeholders.
+</Callout>
+
+### Requirements
+Both `place-requirements` and `upgrade-requirements` use the same format.
+
+```yaml
+  place-requirements:
+    '0': # Unique identifier, it could be whatever
+      type: PERMISSION
+      message: "&4&l[!] &cYou need to reach reborn level 2 first to place this generator!"
+      permission: "tycoon.reborn.2"
+    '1':
+      type: PLACEHOLDER
+      message: "&4&l[!] &cYou need at least level 90 to place this generator!"
+      placeholder: "%alonsolevels_levels%"
+      value: "90"
+```
+
+| Type | Extra options | Description |
+|------|---------------|-------------|
+| `PERMISSION` | `permission` | The player must have the given permission |
+| `PLACEHOLDER` | `placeholder`, `value` | The placeholder result must be at least the given value |
+
+## Corruption
+Per-generator corruption is set up with the `corrupted` section above, but the corruption **waves** themselves are
+global and live in the `corruption` section of `config.yml`. Every wave picks a percentage of all placed generators,
+rolls each one against its own `corrupted.chance`, and breaks the unlucky ones until the owner repairs them by
+shift + right-clicking (or with `/repairgens`).
+
+```yaml
+corruption:
+  enabled: true
+  # How often should corruption happen (in minutes)
+  interval: 180
+  # Should we corrupt the generator if the player are online?
+  online-only: true
+  # How many generators can possibly corrupt
+  # Default: 10 (If there are 100 generators, 10 of them will be randomly chosen and tested for corruption)
+  percentage: 10
+  # Should we use gui to fix the corrupted generator?
+  gui-fix: true
+  # Broadcast when the corruption wave happen, leave empty to disable it
+  broadcast:
+    - '  &c&lPower Outages'
+    - '  &fDue to recent power outages, &c&n{amount}&f generators'
+    - '  &fhave been broken, please fix them immediately!'
+  notify:
+    interval: 5
+    messages:
+      - '  &fThere are &e&n{amount}&f of your generator that''s broken'
+  # List of generators that cannot be corrupted
+  blacklisted-generators:
+    - disabled_generator
+```
+
+| Option | Description |
+|--------|-------------|
+| `enabled` | Turn the whole corruption system on or off |
+| `interval` | How often a corruption wave happens, in minutes |
+| `online-only` | Only corrupt generators whose owner is currently online |
+| `percentage` | How many of all placed generators are tested per wave |
+| `gui-fix` | Open the repair GUI instead of repairing instantly on shift + right-click |
+| `broadcast` | Server-wide message when a wave happens, supports `{amount}`. Leave empty to disable. |
+| `notify.interval` | How often affected players are reminded, in minutes |
+| `notify.messages` | The reminder message, supports `{amount}` |
+| `blacklisted-generators` | Generator ids that can never be corrupted |
+
+<Callout>The floating **BROKEN** text above a corrupted generator is configured separately, see [Holograms](./holograms).</Callout>
+
+## Events
+Gens events are configured in `events.yml`. You can create as many events as you want and NextGens will run
+them one after another, or randomly if you enable `random`.
+
+```yaml
+events:
+  enabled: true
+  # Should we choose a random event instead of starting them by order
+  random: false
+  # The wait time between each event (in seconds)
+  wait-time: 900
+  placeholders:
+    no-event: '&7ɴᴇxᴛ ᴇᴠᴇɴᴛ'
+    no-event-timer: '&7ᴇᴠᴇɴᴛ ɪɴ: &f{timer}'
+    active-event: '{display_name}'
+    active-event-timer: '&7ᴛɪᴍᴇ ʟᴇғᴛ: &f{timer}'
+  events:
+    2x_sell:
+      type: sell_multiplier
+      display-name: '&a&l2x Sell Multiplier'
+      multiplier: 2.0
+      duration: 120
+      chance: 75
+      only-by-command: false
+      start-message:
+        - '  #f69220Type: &f{name}'
+        - '  #f69220Duration: &f{duration}'
+      end-message:
+        - '  #f69220Type: &f{name}'
+        - '  #f69220Next Event In: &f{next_duration}'
+      blacklisted_generators:
+        - disabled_generator_id
+```
+
+### Event types
+| Type | Unique option | Description |
+|------|---------------|-------------|
+| `sell_multiplier` | `multiplier` | Multiplies the value of every sell during the event |
+| `generator_upgrade` | `tier-amount` | Generators drop items from a generator a few tiers above them |
+| `generator_speed` | `percentage` | Reduces the drop interval by that percentage |
+| `drop_multiplier` | `drop-amount` | Generators produce more drops per interval |
+| `mixed_up` | – | Generators produce drops from a random generator |
+
+### Shared event options
+| Option | Description |
+|--------|-------------|
+| `display-name` | The name shown in messages and placeholders |
+| `duration` | How long the event runs, in seconds |
+| `chance` | The chance of being picked, only used when `random` is enabled |
+| `only-by-command` | Only startable through `/gens startevent <event>` |
+| `start-message` / `end-message` | Broadcasted messages, supports `{name}`, `{duration}` and `{next_duration}` |
+| `blacklisted_generators` | Generator ids that are not affected by the event |
+
+<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>

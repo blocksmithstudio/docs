@@ -1,0 +1,14 @@
+{
+    "title": "NextCredits",
+    "description": "The ultimate lightweight credits plugin with multi-server sync and unlimited shops",
+    "pages": [
+      "features-and-installation",
+      "commands-and-permissions",
+      "shops-and-products",
+      "placeholders",
+      "developer-api",
+      "[Download on Spigot](https://www.spigotmc.org/resources/nextcredits-multi-server-sync-unlimited-shops-shop-discounts-unlimited-products-and-more.121672/)"
+    ],
+    "defaultOpen": false,
+    "root": false
+}

@@ -1,0 +1,37 @@
+---
+title: Placeholders
+showTitle: false
+seoTitle: NextCredits | Placeholders
+description: Placeholders for NextCredits
+layout: ../../../layouts/MainLayout.astro
+---
+
+## Placeholders
+<Callout title="Information" type="warn">
+This require [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) to work! so make sure you have it installed!
+</Callout>
+
+| Placeholder                  | Description    |
+| ----------------------------- | -------------  |
+| %nextcredits_balance% | Shows the player's credits without decimals (Format: 1250) |
+| %nextcredits_balance_decimals% | Shows the player's credits with decimals (Format: 1250.5) |
+| %nextcredits_balance_digits% | Shows the player's credits with digit separators (Format: 1,250) |
+| %nextcredits_balance_formatted% | Shows the player's credits, shortened (Format: 1,25K) |
+
+<Callout>These placeholders read from the cached balance, so they return `0` for players whose data isn't loaded yet.</Callout>
+
+## Shop placeholders
+Inside your shop menus you don't need PlaceholderAPI at all, NextCredits replaces these on its own in menu titles and
+in any non-product item.
+
+| Placeholder | Description |
+|-------------|-------------|
+| `{player}` | The player's name (title only) |
+| `{balance}` | Balance without decimals (Format: 1250) |
+| `{balance_decimals}` | Balance with decimals (Format: 1250.5) |
+| `{balance_digits}` | Balance with digit separators (Format: 1,250) |
+| `{balance_formatted}` | Shortened balance (Format: 1,25K) |
+
+See [Shops & Products](./shops-and-products) for the product and discount placeholders.
+
+<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>

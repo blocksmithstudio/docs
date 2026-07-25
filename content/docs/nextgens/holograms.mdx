@@ -1,0 +1,110 @@
+---
+title: Holograms
+showTitle: false
+seoTitle: NextGens | Holograms
+description: How the NextGens hologram system works and how to configure it
+layout: ../../../layouts/MainLayout.astro
+---
+
+## Holograms
+NextGens uses holograms to mark **corrupted generators**, so your players can find the broken ones without hunting
+through their whole base. NextGens doesn't render the holograms itself, it hooks into a hologram plugin of your choice.
+
+### Supported plugins
+| Plugin | Config value |
+|--------|--------------|
+| [DecentHolograms](https://www.spigotmc.org/resources/decentholograms-1-8-1-21-4-papi-support-no-dependencies.96927/) | `DecentHolograms` |
+| [FancyHolograms](https://modrinth.com/plugin/fancyholograms) | `FancyHologram` or `FancyHolograms` |
+| [Holographic Displays](https://dev.bukkit.org/projects/holographic-displays) | `HolographicDisplays` |
+
+<Callout>You only need **one** of them. If none of them is installed, NextGens keeps working normally and simply
+disables the holograms.</Callout>
+
+## Configuration
+Which plugin gets used is controlled by the `holograms` section in `config.yml`.
+
+```yaml
+holograms:
+  # The hologram plugin to use. Supported values:
+  #   - DecentHolograms
+  #   - FancyHologram
+  #   - HolographicDisplays
+  # If the chosen plugin isn't installed (or this is left blank), NextGens will
+  # automatically fall back to any supported hologram plugin it can find.
+  type: DecentHolograms
+```
+
+The look of the corruption hologram itself is configured in the `corruption` section.
+
+```yaml
+corruption:
+  # Should we spawn hologram to indicate the generator is broken?
+  hologram:
+    enabled: true
+    height: 1.85
+    lines:
+      - '&c&lBROKEN'
+      - '&7(Shift + Right Click)'
+```
+
+| Option | Description |
+|--------|-------------|
+| `corruption.hologram.enabled` | Turn the corruption holograms on or off |
+| `corruption.hologram.height` | How high above the generator the hologram floats, in blocks |
+| `corruption.hologram.lines` | The hologram text, supports color codes and hex colors |
+
+### FancyHolograms options
+These options **only** apply when FancyHolograms is the active provider, they are ignored by the other plugins.
+
+```yaml
+holograms:
+  fancyholograms:
+    # How the hologram rotates to face players.
+    # Options: CENTER, VERTICAL, HORIZONTAL, FIXED
+    billboard: CENTER
+    # Size multiplier of the hologram (1.0 = normal size).
+    scale: 1.0
+    # Text alignment. Options: LEFT, CENTER, RIGHT
+    text-alignment: CENTER
+    # Should the text cast a shadow?
+    text-shadow: false
+    # Should the hologram be visible through solid blocks?
+    see-through: false
+    # Background color behind the text.
+    background: transparent
+```
+
+| Option | Values | Description |
+|--------|--------|-------------|
+| `billboard` | `CENTER`, `VERTICAL`, `HORIZONTAL`, `FIXED` | How the hologram rotates towards the player |
+| `scale` | Any number above `0` | Size multiplier, `1.0` is the normal size |
+| `text-alignment` | `LEFT`, `CENTER`, `RIGHT` | Alignment of the text lines |
+| `text-shadow` | `true` / `false` | Whether the text casts a shadow |
+| `see-through` | `true` / `false` | Whether the hologram is visible through blocks |
+| `background` | `transparent`, `default`, or a hex color like `#FF5555` | The background behind the text |
+
+<Callout title="Information" type="info">
+Invalid values don't break anything, NextGens logs a warning and falls back to the default
+(`CENTER` for billboard and alignment, `1.0` for scale, and FancyHolograms' own background).
+</Callout>
+
+## How the provider is picked
+On startup NextGens registers every supported hologram plugin it finds, then chooses one:
+
+1. If `holograms.type` is set and that plugin is installed, it is used.
+2. If it isn't installed (or the option is left blank), NextGens falls back to the first supported hologram plugin
+   that **is** installed, and logs which one it picked.
+3. If nothing supported is installed, generator holograms are disabled with a warning in the console.
+
+So if you see `No supported hologram plugin found! Generator holograms will be disabled.` in your console, install one
+of the three plugins above. And if you see `Configured hologram provider '...' is not available`, check the spelling
+of `holograms.type` against the table at the top of this page.
+
+<Callout type="warning">Changing `holograms.type` requires a **restart**, hologram providers are only resolved once
+when the plugin enables.</Callout>
+
+## Developers
+NextGens' hologram system is open, so your own plugin can provide the holograms instead of the three built-in options.
+See [Developer API](./developer-api) for `HologramManager#register` and the `HologramProvider` interface.
+
+<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>

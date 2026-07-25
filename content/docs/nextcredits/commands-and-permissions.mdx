@@ -1,0 +1,99 @@
+---
+title: Commands & Permissions
+showTitle: false
+seoTitle: NextCredits | Commands & Permissions
+description: NextCredits Commands and Permissions Page
+layout: ../../../layouts/MainLayout.astro
+---
+
+## Commands & Permissions
+
+<Callout title="Information" type="info">
+  [] = Optional<br/>
+  &lt;&gt; = Required
+</Callout>
+
+The main command is `/nextcredits` with the aliases `nextcredit`, `credits` and `credit`, and the shop has its own
+`/shop` command. Both of them, including their aliases, can be renamed in `config.yml`.
+
+```yaml
+command: "nextcredits"
+aliases: [ "nextcredit", "credits", "credit" ]
+command-shop: "shop"
+shop-aliases: [ "shop" ]
+```
+
+### Player Commands
+| Command          | Description        | Permission |
+| ---------------- | ------------------ | ---------- |
+| nextcredits | Shows the help messages | |
+| nextcredits help | Shows the help messages | |
+| nextcredits balance | Shows your own credits balance | |
+| nextcredits shop | Open up the shop menu | |
+| nextcredits pay `<player> <amount>` | Transfer your credits to another player | nextcredits.pay |
+| shop | Open up the shop menu | |
+
+### Admin Commands
+| Command          | Description        | Permission |
+| ---------------- | ------------------ | ---------- |
+| nextcredits balance `<player>` | Shows another player's balance | nextcredits.admin |
+| nextcredits shop `<player>` | Open up the shop menu for another player | nextcredits.admin |
+| nextcredits give `<player> <amount>` | Give credits to player | nextcredits.admin |
+| nextcredits take `<player> <amount>` | Take credits from player | nextcredits.admin |
+| nextcredits remove `<player> <amount>` | Alias of the take command | nextcredits.admin |
+| nextcredits set `<player> <amount>` | Set the player's credits balance | nextcredits.admin |
+| nextcredits discount `<type> <target> <percentage> <duration>` | Start a discount campaign for the shop | nextcredits.admin |
+| nextcredits stopdiscount `<type> <target>` | Stop an on-going discount campaign | nextcredits.admin |
+| nextcredits convert `<type>` | Convert data from another plugin or another database | nextcredits.admin |
+| nextcredits deleteuser `<uuid>` | Delete a player's data from the database | nextcredits.admin |
+| nextcredits reload | Reload the configuration | nextcredits.admin |
+
+<Callout title="Information" type="info">
+Products can also have their own permission, which is set per product with the `shop-options.permission` option.
+Players without it can't purchase that product.
+</Callout>
+
+### Command shortcut
+By default `/nextcredits` shows the help message. If you'd rather have it jump straight to the balance message or the
+shop menu, enable the shortcut in `config.yml`.
+
+```yaml
+command-shortcut:
+  # Should we enable the command shortcut?
+  enabled: true
+  # Available commands: balance, shop
+  command: "balance"
+```
+
+### Discount command
+The discount command takes a type, a target, a percentage and a duration in seconds.
+
+| Type | Target | Description |
+|------|--------|-------------|
+| `product` | A product id, or `all` | Discount a single product |
+| `category` | A category name, or `all` | Discount every product in that category |
+| `all` | `all` | Discount every product in every shop |
+
+```
+/nextcredits discount product vote_key 25 3600
+/nextcredits discount category crates 50 1800
+/nextcredits discount all all 10 600
+```
+
+Stop it early with the same type and target:
+
+```
+/nextcredits stopdiscount product vote_key
+```
+
+### Convert command
+| Type | Description |
+|------|-------------|
+| `rivalcredits` | Import all balances from RivalCredits |
+| `sqlite_to_mysql` | Move your data from SQLite to MySQL |
+| `mysql_to_sqlite` | Move your data from MySQL to SQLite |
+
+<Callout type="warning">Always take a backup of your database before running a conversion, and make sure the target
+database is configured in `config.yml` first.</Callout>
+
+<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>

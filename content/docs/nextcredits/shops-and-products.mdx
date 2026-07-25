@@ -1,0 +1,176 @@
+---
+title: Shops & Products
+showTitle: false
+seoTitle: NextCredits | Shops & Products
+description: How to create your own shops, products and discounts on NextCredits
+layout: ../../../layouts/MainLayout.astro
+---
+
+## How it works
+NextCredits splits the shop into two parts:
+
+- **Products** live in the `products` folder. A product is what the player actually buys: its price, its category,
+  the commands it runs, and the item shown in the menu.
+- **Shops** live in the `shops` folder. A shop is a menu. It places products into slots, and it can also hold
+  decoration items and buttons that open other menus.
+
+That separation means one product can appear in as many shops as you want, and you never have to repeat its price
+or its reward commands.
+
+<Callout>The menu opened by `/shop` is set with `shop-options.shop-main-menu` in `config.yml`, and defaults to `main_menu`.</Callout>
+
+## Creating a product
+Create a file inside the `products` folder, for example `products/crates.yml`. Every product goes under the
+`products` section.
+
+```yaml
+products:
+  vote_key:
+    material: TRIPWIRE_HOOK
+    display-name: "&a&lVote Key"
+    custom-model-data: 0
+    shop-options:
+      price: 500
+      unique_id: vote_key # Must be unique
+      category: crates
+      permission: "nextcredits.crates.vote_key"
+      commands:
+        - "crates give {player} vote 1"
+    lore:
+      - "&7Open up vote key to receive"
+      - "&7exclusive rewards."
+      - " "
+      - " &fPrice: {price}"
+      - " {discount}"
+      - " "
+      - "&aClick to purchase"
+```
+
+| Option | Description |
+|--------|-------------|
+| `shop-options.unique_id` | The id used to reference this product from a shop. Must be unique across all files. |
+| `shop-options.price` | How many credits the product costs |
+| `shop-options.category` | The category this product belongs to, used by category discounts |
+| `shop-options.permission` | Optional, the permission needed to purchase this product |
+| `shop-options.commands` | Commands executed from console after a successful purchase, supports `{player}` |
+| `material`, `display-name`, `lore`, `custom-model-data`, ... | The item displayed in the shop menu |
+
+### Item placeholders
+| Placeholder | Description |
+|-------------|-------------|
+| `{price}` | The price line, automatically switches to the discounted format when a discount is running |
+| `{discount}` | Replaced with the discount lines while a discount is active, and removed entirely when there is none |
+
+Both of them are styled in `config.yml`, so you only have to set the look once.
+
+```yaml
+shop-options:
+  price-placeholder:
+    normal: "&e{price} credits"
+    discount: "&c&m{real_price}&r &a{discounted_price} credits"
+  discount-lines:
+    - " &7└ &e&l{discount_percent}% OFF"
+    - " &7└ Ends in &f{time_left}"
+```
+
+## Creating a shop
+Create a file inside the `shops` folder, for example `shops/crate_shop.yml`. The `id` is required, it's what other
+menus and the config refer to.
+
+```yaml
+# The title and size
+title: "Crate Shop"
+size: 27
+
+# This is required
+id: crate_shop
+
+items:
+  shop_item1:
+    options:
+      type: SHOP_ITEM
+      product: vote_key
+    slots: [11]
+  back:
+    options:
+      type: OPEN_MENU
+      menu: main_menu
+    material: BARRIER
+    display-name: "&cGo back"
+    slots: [22]
+    lore:
+      - "&7Click to go back to the main menu."
+  filler:
+    material: GRAY_STAINED_GLASS_PANE
+    display-name: "&7"
+    slots: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 23, 24, 25, 26]
+    lore: []
+```
+
+### Item types
+| Type | Extra options | Description |
+|------|---------------|-------------|
+| `SHOP_ITEM` | `product` | Displays a product and makes it purchasable. The item itself comes from the product file. |
+| `OPEN_MENU` | `menu` | Opens another shop by its `id` |
+| *(none)* | `commands` | A plain item. If you give it commands, they run when the player clicks it. |
+
+<Callout title="Information" type="info">
+If a `SHOP_ITEM` points to a product id that doesn't exist, NextCredits shows a barrier in that slot so you can
+spot the mistake in-game right away, and logs a warning in the console.
+</Callout>
+
+### Title and item placeholders
+The shop title and any non-product item supports the balance placeholders.
+
+| Placeholder | Description |
+|-------------|-------------|
+| `{player}` | The player's name (title only) |
+| `{balance}` | Balance without decimals (Format: 1250) |
+| `{balance_decimals}` | Balance with decimals (Format: 1250.5) |
+| `{balance_digits}` | Balance with digit separators (Format: 1,250) |
+| `{balance_formatted}` | Shortened balance (Format: 1,25K) |
+
+## Purchase behaviour
+```yaml
+shop-options:
+  # Should we use confirmation menu
+  confirmation-menu: true
+  # Should we replace the item if the player can't purchase it?
+  replace-item: true
+  not-enough-credits:
+    material: BARRIER
+    display-name: "&c&lNOT ENOUGH CREDITS"
+    lore:
+      - "&7You need &e{price} credits &7to"
+      - "&7purchase this item."
+  no-permission:
+    material: BARRIER
+    display-name: "&c&lNO PERMISSION"
+    lore:
+      - "&7You don't have permission to"
+      - "&7purchase this item."
+```
+
+| Option | Description |
+|--------|-------------|
+| `confirmation-menu` | Ask the player to confirm before the credits are taken. The menu itself is configured in `confirmation_menu.yml`. |
+| `replace-item` | Briefly replace the item with a feedback item when the player can't buy it |
+| `not-enough-credits` | The feedback item when the player can't afford it, supports `{price}` |
+| `no-permission` | The feedback item when the player lacks the product permission, supports `{permission}` |
+
+<Callout>Credits are always taken and logged **before** the reward commands run, so a failed transaction can never
+hand out a free product.</Callout>
+
+## Discounts
+Discounts are started in-game and are saved across restarts, so you don't need to touch any file to run a sale.
+
+```
+/nextcredits discount product vote_key 25 3600
+/nextcredits discount category crates 50 1800
+/nextcredits discount all all 10 600
+```
+
+While a discount is running, every menu that shows the product automatically switches to the discounted price
+format and renders your `discount-lines` in place of the `{discount}` lore line.
+
+<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>

@@ -1,0 +1,320 @@
+---
+title: Developer API
+showTitle: false
+seoTitle: NextGens | Developer API
+description: You can use the NextGens API that we provide to customize the plugin to your likings!
+layout: ../../../layouts/MainLayout.astro
+---
+
+## Developer API
+But firstly we need to put this plugin as our depedencies. And how do we do that?
+We provide a tutorial on how to do that just by below here!<br/>
+<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>
+
+```xml tab="Maven"
+<dependency>
+    <groupId>com.muhammaddaffa</groupId>
+    <artifactId>NextGens</artifactId>
+    <version>LATEST</version>
+    <scope>system</scope>
+    <systemPath>${project.basedir}/libs/NextGens.jar</systemPath>
+</dependency>
+```
+
+```groovy tab="Gradle"
+dependencies {
+    implementation files("${projectDir}/libs/NextGens.jar")
+}
+```
+
+Don't forget to add NextGens to your `plugin.yml` so your plugin always loads after it.
+
+```yaml
+depend: [NextGens]
+# or, if NextGens is optional for your plugin
+softdepend: [NextGens]
+```
+
+## Getting the API
+Everything is accessible from a single entrypoint, `NextGens#getApi()`.
+
+```java
+GeneratorAPI api = NextGens.getApi();
+```
+
+### Available methods
+| Method | Returns | Description |
+|--------|---------|-------------|
+| `getGenerator(String id)` | `Generator` | Get a generator by its configuration id |
+| `getGenerator(ItemStack stack)` | `Generator` | Get the generator that the item represents, `null` if it isn't a generator item |
+| `getActiveGenerator()` | `Collection<ActiveGenerator>` | Get every placed generator on the server |
+| `getActiveGenerator(UUID uuid)` | `List<ActiveGenerator>` | Get every generator placed by that player |
+| `getActiveGenerator(Block block)` | `ActiveGenerator` | Get the placed generator on that block, `null` if there is none |
+| `getActiveGenerator(Location location)` | `ActiveGenerator` | Same as above, but with a location |
+| `unregisterGenerator(Block block)` | `void` | Remove a placed generator (also accepts a `Location`) |
+| `giveGenerator(Player player, String id)` | `void` | Give a generator item to a player (also accepts `OfflinePlayer` or `UUID`) |
+| `getUser(Player player)` | `User` | Get the user data (also accepts a `UUID`) |
+| `getGeneratorLimit(Player player)` | `int` | Get the maximum amount of generators that player can place |
+| `getGeneratorBonusPlace(Player player)` | `int` | Get the bonus generator slot that player has |
+| `getGeneratorCurrentPlaced(Player player)` | `int` | Get how many generators that player currently has placed |
+| `getWorth(ItemStack stack)` | `Double` | Get the sell value of an item, `null` if the item has no worth |
+| `createSellwand(double multiplier, int uses)` | `ItemStack` | Create a sellwand item |
+| `updateSellwand(ItemStack stack)` | `void` | Refresh the display name and lore of a sellwand item |
+| `getActiveEvent()` | `Event` | Get the on-going event, `null` if there is no event |
+| `getEvent(String id)` | `Event` | Get an event by its configuration id |
+| `getRandomEvent()` | `Event` | Get a random event |
+| `getEvents()` | `List<Event>` | Get every registered event |
+
+<Callout>Both `getGenerator` and `getActiveGenerator` are overloaded, so make sure you're passing the right object.
+`Generator` is the generator **type** from your configuration, while `ActiveGenerator` is a generator that is **placed** in the world.</Callout>
+
+### Other managers
+Some systems are not exposed through `GeneratorAPI` and are reached from the plugin instance instead.
+
+```java
+NextGens plugin = NextGens.getInstance();
+
+plugin.getHologramManager();    // hologram providers, see below
+plugin.getMultiplierRegistry(); // sell multiplier providers, see below
+plugin.getGeneratorManager();
+plugin.getUserManager();
+plugin.getWorthManager();
+plugin.getSellwandManager();
+plugin.getEventManager();
+plugin.getSellManager();
+plugin.getRefundManager();
+```
+
+## Events
+List of custom events on NextGens. All of them are cancellable.
+
+| Class | Description |
+|-------|-------------|
+| GeneratorEvent | This event is like the root event, every generator related event extends this class. |
+| GeneratorLoadEvent | Called when a generator is loaded from the configuration |
+| GeneratorPlaceEvent | Called when a player places a generator |
+| GeneratorBreakEvent | Called when a player breaks a generator |
+| GeneratorUpgradeEvent | Called when a player upgrades a generator |
+| GeneratorCorruptedEvent | Called when a generator becomes corrupted |
+| GeneratorGenerateItemEvent | Called when a generator produces a drop |
+| SellEvent | Root event of every sell action, called when a player sells their items |
+| SellCommandUseEvent | Called when a player sells using the `/sell` command |
+| SellwandUseEvent | Called when a player sells using a sellwand |
+| PlayerCashbackEvent | Called when a player receives cashback |
+
+### Useful getters
+| Class | Getters |
+|-------|---------|
+| GeneratorEvent | `getGenerator()` |
+| GeneratorPlaceEvent, GeneratorBreakEvent | `getPlayer()` |
+| GeneratorUpgradeEvent | `getPlayer()`, `getNextGenerator()` |
+| GeneratorCorruptedEvent | `getActiveGenerator()` |
+| GeneratorGenerateItemEvent | `getActiveGenerator()`, `getOwner()`, `getDrop()`, `setDrop(Drop)`, `getDropAmount()`, `setDropAmount(int)`, `isDropItem()`, `setDropItem(boolean)`, `getTimer()`, `setTimer(double)` |
+| SellEvent | `getPlayer()`, `getUser()`, `getBlock()`, `getSellData()`, `getMultiplier()`, `setMultiplier(double)` |
+| PlayerCashbackEvent | `getPlayer()`, `getUser()`, `getPercentage()`, `setPercentage(double)` |
+
+## Examples
+Below are multiple examples on how to use the API
+
+### How to multiply the amount of items generated
+```java
+@EventHandler
+private void onGenerate(GeneratorGenerateItemEvent event) {
+    Player player = Bukkit.getPlayer(event.getOwner());
+    if (player == null) {
+        return;
+    }
+    // Double the drop amount for players with a permission
+    if (player.hasPermission("myplugin.doubledrops")) {
+        event.setDropAmount(event.getDropAmount() * 2);
+    }
+}
+```
+
+### How to stop the item from dropping, but keep the generator running
+```java
+@EventHandler
+private void onGenerate(GeneratorGenerateItemEvent event) {
+    ActiveGenerator active = event.getActiveGenerator();
+    // Instead of dropping the item, handle it yourself
+    event.setDropItem(false);
+    // Do whatever you want with the drop here
+    ItemStack stack = event.getDrop().getItem();
+    stack.setAmount(event.getDropAmount());
+}
+```
+
+### How to give extra sell multiplier on a specific world
+```java
+@EventHandler
+private void onSell(SellEvent event) {
+    Player player = event.getPlayer();
+    if (player.getWorld().getName().equalsIgnoreCase("tycoon")) {
+        event.setMultiplier(event.getMultiplier() + 0.5);
+    }
+}
+```
+
+### How to get all generators that a player has placed
+```java
+private List<ActiveGenerator> getGenerators(Player player) {
+    return NextGens.getApi().getActiveGenerator(player.getUniqueId());
+}
+```
+
+### How to check the sell value of an item
+```java
+private double getWorth(ItemStack stack) {
+    Double worth = NextGens.getApi().getWorth(stack);
+    // Items without any worth will return null
+    return worth == null ? 0.0 : worth;
+}
+```
+
+### How to give a generator to a player
+```java
+private void giveGenerator(Player player, String generatorId) {
+    GeneratorAPI api = NextGens.getApi();
+    // Make sure the generator actually exists
+    if (api.getGenerator(generatorId) == null) {
+        return;
+    }
+    // If the player's inventory is full, the item will be refunded automatically
+    api.giveGenerator(player, generatorId);
+}
+```
+
+### How to give a sellwand to a player
+```java
+private void giveSellwand(Player player, double multiplier, int uses) {
+    ItemStack sellwand = NextGens.getApi().createSellwand(multiplier, uses);
+    player.getInventory().addItem(sellwand);
+}
+```
+
+## Holograms
+NextGens spawns holograms above corrupted generators through a provider, and ships with providers for
+DecentHolograms, FancyHolograms and Holographic Displays. If you use a different hologram plugin, or you want the
+holograms to be rendered by your own plugin, you can register your own provider.
+
+See [Holograms](./holograms) for the server-side configuration of this system.
+
+### The HologramProvider interface
+```java
+public interface HologramProvider {
+
+    /**
+     * The internal id used to match against the config value (holograms.type).
+     */
+    String id();
+
+    /**
+     * The Bukkit plugin name this provider hooks into.
+     * Used to detect whether the provider can actually be used.
+     */
+    String pluginName();
+
+    /**
+     * Whether the backing plugin is installed and enabled on this server.
+     * Only available providers are eligible for the fallback.
+     */
+    default boolean isAvailable() {
+        return Bukkit.getPluginManager().isPluginEnabled(pluginName());
+    }
+
+    void spawn(String name, Location location, List<String> lines);
+
+    void destroy(String name, Location location);
+}
+```
+
+| Method | Description |
+|--------|-------------|
+| `id()` | The value server owners put in `holograms.type` to select your provider. Must not be `null` or blank. |
+| `pluginName()` | The Bukkit plugin name backing your provider, used by the default `isAvailable()` check |
+| `isAvailable()` | Override it if your provider needs no plugin, or needs a different check than `pluginName()` |
+| `spawn(name, location, lines)` | Create the hologram. `name` is a unique, already sanitized id derived from the location. |
+| `destroy(name, location)` | Remove the hologram again. You get both the name and the location, so you can match on either. |
+
+### Registering your provider
+```java
+public class MyPlugin extends JavaPlugin {
+
+    @Override
+    public void onLoad() {
+        HologramManager.register(new MyHologramProvider());
+    }
+
+}
+```
+
+<Callout type="warning">Register in your plugin's `onLoad()`, **not** `onEnable()`. NextGens resolves which provider it
+uses while it enables, so anything registered after that point is stored but never picked until the next restart.</Callout>
+
+| Method | Returns | Description |
+|--------|---------|-------------|
+| `HologramManager.register(HologramProvider provider)` | `void` | Register a provider. Passing `null` shuts the server's plugins down, and a duplicate `id()` throws an `IllegalStateException`. |
+| `HologramManager.unregister(String id)` | `boolean` | Remove a provider by its id, returns `false` if there was nothing to remove |
+
+Registering a provider doesn't force NextGens to use it. Server owners still select it by putting your `id()` (or your
+`pluginName()`) into `holograms.type`, otherwise it's only used if no other supported hologram plugin is installed.
+
+### Using the active provider
+```java
+private void spawnHologram(Location location, List<String> lines) {
+    HologramManager manager = NextGens.getInstance().getHologramManager();
+    // no hologram plugin is installed, nothing to spawn
+    if (!manager.isEnabled()) {
+        return;
+    }
+    manager.getProvider().spawn("my_hologram", location, lines);
+}
+```
+
+| Method | Returns | Description |
+|--------|---------|-------------|
+| `isEnabled()` | `boolean` | Whether a usable provider is active |
+| `getProvider()` | `HologramProvider` | The active provider, `null` when no supported plugin is installed |
+
+<Callout>Always check `isEnabled()` before touching `getProvider()`, it returns `null` on servers without any
+hologram plugin.</Callout>
+
+## Sell multipliers
+Every sell multiplier in NextGens (events, permissions, sellwands, per-player multipliers and per-world multipliers)
+comes from a provider, and all of their values are **added** together. You can add your own into that stack.
+
+```java
+public class MyMultiplier implements SellMultiplierProvider {
+
+    @Override
+    public double getMultiplier(Player player, User user, SellwandData sellwand) {
+        // Return the amount to ADD to the multiplier, 0.0 for no change
+        if (player.hasPermission("myplugin.vip")) {
+            return 0.5;
+        }
+        return 0.0;
+    }
+
+}
+```
+
+Register it once your plugin is enabled:
+
+```java
+@Override
+public void onEnable() {
+    NextGens.getInstance().getMultiplierRegistry()
+            .registerMultiplier(new MyMultiplier());
+}
+```
+
+<Callout title="Information" type="info">
+`sellwand` is `null` when the sale didn't come from a sellwand, so always null-check it.
+Your provider is also included in the `%nextgens_multiplier%` placeholders, which means it must be fast, cheap,
+and free of any blocking calls.
+</Callout>
+
+If you only need to adjust a single sale instead of contributing a permanent multiplier, listen to `SellEvent` and
+use `setMultiplier` as shown above.
+
+<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>

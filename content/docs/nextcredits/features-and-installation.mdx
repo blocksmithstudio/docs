@@ -1,0 +1,127 @@
+---
+title: Features & Installation
+showTitle: false
+seoTitle: NextCredits | Features & Installation
+description: NextCredits Features and Installation Page
+layout: ../../../layouts/MainLayout.astro
+---
+
+import { Step, Steps } from 'fumadocs-ui/components/steps'
+
+## Features
+
+**NextCredits** is the ultimate lightweight credits plugin for your Minecraft server. It gives you a second currency
+that lives completely outside of your economy plugin, a fully configurable shop system to spend it in, and it was
+designed from the ground up for networks: MySQL as the single source of truth, optional Redis and proxy synchronization,
+and every credit change written to a transaction log.
+
+| **Features** | **Description** |
+|--------------|-----------------|
+| **Unlimited Shops** | Create as many shop menus as you want, each one in its own file. |
+| **Unlimited Products** | Define products in separate files and reuse them across multiple shops. |
+| **Shop Discounts** | Run timed discount campaigns on a single product, a whole category, or the entire shop. |
+| **Multi-Server Sync** | Keep balances consistent across your whole network with MySQL, plus optional Redis and proxy messaging. |
+| **Transaction Logs** | Every give, take, set, pay and purchase is recorded in the database. |
+| **Safe Transactions** | Credits are debited before rewards are given, so a failed purchase never hands out free products. |
+| **Confirmation Menu** | Optional confirmation screen before a purchase goes through. |
+| **Discord Webhooks** | Send give, take, set and purchase notifications straight into a Discord channel. |
+| **Player-to-Player Pay** | Let your players transfer credits to each other with `/nextcredits pay`. |
+| **Data Converter** | Migrate from RivalCredits, or move between SQLite and MySQL with a single command. |
+| **PlaceholderAPI Support** | Show credit balances anywhere, in multiple formats. |
+| **Custom Commands** | Rename the main and shop commands and their aliases to whatever fits your server. |
+
+## Installation
+Here is a quick guide on how to install NextCredits on your Minecraft server.
+<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>
+
+<Steps>
+<Step>
+### Download the Plugin
+
+First, download the latest version of NextCredits from [SpigotMC](https://www.spigotmc.org/resources/nextcredits-multi-server-sync-unlimited-shops-shop-discounts-unlimited-products-and-more.121672/).
+
+<Callout type="warning">**Be alert:** This plugin is only available on its official [SpigotMC](https://www.spigotmc.org/resources/nextcredits-multi-server-sync-unlimited-shops-shop-discounts-unlimited-products-and-more.121672/) page.
+Any versions found on third-party sites like 9Minecraft.net are **unauthorized and may contain malware**. Always download from official sources to stay safe.</Callout>
+</Step>
+
+<Step>
+### Upload to your server
+Drag & Drop the plugin jar to your `plugins` folder.
+</Step>
+
+<Step>
+### Install Dependencies
+| Plugin | Required |
+|--------|-----------|
+| PlaceholderAPI | No |
+| RivalCredits | No |
+| MySQL | No |
+| Redis | No |
+
+<Callout>NextCredits works out of the box with SQLite. MySQL is only required if you want cross-server synchronization,
+and Redis is an optional layer on top of it. RivalCredits is only needed once, if you're migrating your old data over.</Callout>
+</Step>
+
+<Step>
+### Restart your server
+Make sure the plugin loads correctly and all files are automatically generated.
+</Step>
+
+<Step>
+### Done
+</Step>
+</Steps>
+
+## Cross-server synchronization
+If you run a network and want every server to share the same balances, you'll need MySQL. Open `config.yml` and
+enable both `mysql` and `sync-cross-server`.
+
+```yaml
+mysql:
+  enabled: true
+  host: localhost
+  port: 3306
+  database: db_nextcredits
+  user: root
+  password: ''
+  useSSL: false
+
+# Cross-server synchronization
+# Required MySQL to use this
+sync-cross-server: true
+# The interval to refresh online cached users from MySQL (in seconds)
+sync-interval: 30
+# Maximum users to include in a single sync query
+sync-batch-size: 100
+```
+
+| Option | Description |
+|--------|-------------|
+| `save-interval` | How often cached balances are written to the database, in seconds. `0` saves immediately but is not recommended. |
+| `sync-cross-server` | Periodically reload online players' balances from the database. |
+| `sync-interval` | How often that refresh happens, in seconds. |
+| `sync-batch-size` | How many users are pulled per sync query. |
+
+### Instant updates with Redis
+The periodic sync above is enough for most networks, but if you want balance changes to show up on the other servers
+right away, you can enable Redis. MySQL always stays the source of truth, Redis is only used as a fast
+"this player's balance changed" signal.
+
+```yaml
+redis:
+  enabled: true
+  host: localhost
+  port: 6379
+  password: ''
+  database: 0
+  ssl: false
+  timeout: 2000
+  channel: "nextcredits:sync"
+```
+
+### Proxy plugin
+NextCredits also ships proxy jars for **BungeeCord** and **Velocity**. Drop the matching jar into your proxy's
+`plugins` folder and it will forward credit updates between your servers over the `nextcredits:channel`
+plugin messaging channel. No configuration is needed on the proxy side.
+
+<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>

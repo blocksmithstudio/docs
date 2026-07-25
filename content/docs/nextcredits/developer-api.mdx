@@ -1,0 +1,157 @@
+---
+title: Developer API
+showTitle: false
+seoTitle: NextCredits | Developer API
+description: You can use the NextCredits API that we provide to customize the plugin to your likings!
+layout: ../../../layouts/MainLayout.astro
+---
+
+## Developer API
+But firstly we need to put this plugin as our depedencies. And how do we do that?
+We provide a tutorial on how to do that just by below here!<br/>
+<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>
+
+```xml tab="Maven"
+<dependency>
+    <groupId>com.muhammaddaffa</groupId>
+    <artifactId>NextCredits</artifactId>
+    <version>LATEST</version>
+    <scope>system</scope>
+    <systemPath>${project.basedir}/libs/NextCredits.jar</systemPath>
+</dependency>
+```
+
+```groovy tab="Gradle"
+dependencies {
+    implementation files("${projectDir}/libs/NextCredits.jar")
+}
+```
+
+Don't forget to add NextCredits to your `plugin.yml` so your plugin always loads after it.
+
+```yaml
+depend: [NextCredits]
+# or, if NextCredits is optional for your plugin
+softdepend: [NextCredits]
+```
+
+### API-only dependency
+If you only need the interfaces and don't want to ship the plugin jar around, the API is also published on
+[JitPack](https://jitpack.io/).
+
+```xml tab="Maven"
+<repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io/</url>
+</repository>
+
+<dependency>
+    <groupId>com.github.mdaffa48</groupId>
+    <artifactId>NextCreditsAPI</artifactId>
+    <version>LATEST</version>
+    <scope>provided</scope>
+</dependency>
+```
+
+```groovy tab="Gradle"
+repositories {
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    compileOnly "com.github.mdaffa48:NextCreditsAPI:LATEST"
+}
+```
+
+## Getting the API
+Everything goes through a single interface, `NextCreditsAPI`.
+
+```java
+NextCreditsAPI api = NextCredits.getAPI();
+```
+
+### Available methods
+| Method | Returns | Description |
+|--------|---------|-------------|
+| `getCredits(Player player)` | `double` | Get the player's credits balance |
+| `getCredits(UUID uuid)` | `double` | Same as above, works for offline players too |
+| `addCredits(Player player, double amount)` | `void` | Add credits to the player |
+| `addCredits(UUID uuid, double amount)` | `void` | Same as above, works for offline players too |
+| `removeCredits(Player player, double amount)` | `void` | Take credits from the player |
+| `removeCredits(UUID uuid, double amount)` | `void` | Same as above, works for offline players too |
+| `setCredits(Player player, double amount)` | `void` | Set the player's balance, negative values are clamped to `0` |
+| `setCredits(UUID uuid, double amount)` | `void` | Same as above, works for offline players too |
+
+<Callout type="warning">`getCredits` waits for the player's data to be loaded, so never call it on the main thread for a
+player who might be offline. The modifying methods (`addCredits`, `removeCredits`, `setCredits`) are asynchronous and
+return immediately, they don't tell you whether the change succeeded.</Callout>
+
+Every change made through the API is written to the transaction log with a reason of `api_add`, `api_remove` or
+`api_set`, so you can always trace where a balance change came from.
+
+## The User object
+Some methods hand you a `User`, which is the cached data of a player.
+
+| Method | Returns | Description |
+|--------|---------|-------------|
+| `getUniqueId()` | `UUID` | The player's unique id |
+| `getName()` | `String` | The last known name of the player, can be `null` |
+| `getCredits()` | `double` | The cached credits balance |
+| `setCredits(double amount)` | `void` | Change the cached balance |
+
+<Callout type="warning">Writing to the `User` object directly only changes the cache, it doesn't create a transaction log
+entry and it can be overwritten by the cross-server sync. Always go through the API methods to change a balance.</Callout>
+
+## Examples
+Below are multiple examples on how to use the API
+
+### How to check a player's balance
+```java
+private double getCredits(Player player) {
+    return NextCredits.getAPI().getCredits(player);
+}
+```
+
+### How to reward a player with credits
+```java
+private void reward(Player player, double amount) {
+    NextCredits.getAPI().addCredits(player, amount);
+}
+```
+
+### How to charge a player for something
+```java
+private void purchase(Player player, double price) {
+    NextCreditsAPI api = NextCredits.getAPI();
+    // Always check the balance before taking the credits
+    if (api.getCredits(player) < price) {
+        player.sendMessage("You don't have enough credits!");
+        return;
+    }
+    api.removeCredits(player, price);
+    // Give the reward here
+}
+```
+
+### How to read an offline player's balance safely
+```java
+private void printCredits(CommandSender sender, UUID uuid) {
+    // getCredits may need to hit the database, so do it off the main thread
+    Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+        double credits = NextCredits.getAPI().getCredits(uuid);
+        Bukkit.getScheduler().runTask(plugin, () ->
+                sender.sendMessage("Balance: " + credits));
+    });
+}
+```
+
+### How to hook NextCredits softly
+If NextCredits is only an optional dependency of your plugin, guard the hook so your plugin still loads without it.
+
+```java
+private boolean isNextCreditsEnabled() {
+    return Bukkit.getPluginManager().isPluginEnabled("NextCredits");
+}
+```
+
+<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>
