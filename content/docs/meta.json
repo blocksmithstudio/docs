@@ -1,4 +1,5 @@
 {
+  "itemskins": { "title": "itemskins", "type": "folder" },
   "nextcoinflip": { "title": "nextcoinflip", "type": "folder" },
   "nextcollectors": { "title": "nextcollectors", "type": "folder" },
   "nextcredits": { "title": "nextcredits", "type": "folder" },

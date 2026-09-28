@@ -5,6 +5,7 @@ const withMDX = createMDX();
 const nextConfig = {
   async redirects() {
     return [
+      { source: "/itemskins", destination: "/itemskins/features-and-installation", permanent: false },
       { source: "/nextcollectors",  destination: "/nextcollectors/features", permanent: false },
       { source: "/nextcoinflip",  destination: "/nextcoinflip/features-and-installation", permanent: false },
       // tinggal tambah lagi contoh seperti di atas bg

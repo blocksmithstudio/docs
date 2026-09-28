@@ -1,0 +1,13 @@
+{
+  "title": "ItemSkins",
+  "description": "Custom skins for your items.",
+  "pages": [
+    "features-and-installation",
+    "commands-and-permissions",
+    "creating-skins",
+    "configuration",
+    "[Download on SpigotMC](https://www.spigotmc.org/resources/itemskins-switch-your-items-texture.97459/)"
+  ],
+  "defaultOpen": false,
+  "root": false
+}

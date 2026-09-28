@@ -1,0 +1,68 @@
+---
+title: Features & Installation
+showTitle: false
+seoTitle: ItemSkins | Features & Installation
+description: Give your items a new look with custom skins, previews, and physical skin items.
+---
+
+import { Step, Steps } from 'fumadocs-ui/components/steps'
+
+![ItemSkins banner](/img/itemskins/banner.jpeg)
+
+## Features
+
+ItemSkins lets players change the appearance of their weapons, tools, and armor while keeping the original item's data, including its name, enchantments, and durability.
+
+- **Custom skins** - Add skins through simple YAML files and browse them in a paginated menu.
+- **Physical skins** - Give players skin items that they can drag onto their equipment.
+- **Skin previews** - View a skin before applying it, including skins that are still locked.
+- **Permissions** - Choose which skins each player can use.
+- **Skin removal** - Clear a skin through the menu or use a physical skin remover.
+- **Custom item integration** - Use models from Nexo or ItemsAdder.
+
+<Callout type="info">ItemSkins applies the appearance configured for a skin. Players still need your server's resource pack to see custom textures and models. Adding a skin YAML file alone does not create a texture.</Callout>
+
+## Installation
+
+<Steps>
+<Step>
+### Download the plugin
+
+Download ItemSkins from [SpigotMC](https://www.spigotmc.org/resources/itemskins-switch-your-items-texture.97459/) or [BuiltByBit](https://builtbybit.com/resources/itemskins-switch-items-texture.21834/).
+
+Use Java 21 for the current 2.1.x build and a compatible Paper server. Check the download's server requirements when choosing a version.
+</Step>
+
+<Step>
+### Upload the plugin and integrations
+
+Put the ItemSkins JAR in your server's `plugins` folder.
+
+| Plugin | Required |
+|--------|----------|
+| PacketEvents | For skin previews |
+| Nexo | Only for skins using Nexo items |
+| ItemsAdder | Only for skins using ItemsAdder items |
+| PlaceholderAPI | Optional, for placeholders in supported text fields |
+
+MDLib is bundled with ItemSkins; you do not need to install it separately.
+</Step>
+
+<Step>
+### Restart and configure your skins
+
+Restart the server to generate the configuration. The current build stores its files in `plugins/HyanseItemSkins/`.
+
+Set up your resource pack, then edit the files in `skins/` to match your models. See [Creating Skins](./creating-skins) for an example. Nexo and ItemsAdder examples need matching items from those plugins.
+</Step>
+
+<Step>
+### Try a skin
+
+Give yourself the skin's configured permission, hold a single compatible item, and run `/skins`. Left-click an unlocked skin to apply it, or right-click to preview it.
+
+You can also click another item in your inventory to select it. Use **Clear Skin** to remove its appearance.
+</Step>
+</Steps>
+
+<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>

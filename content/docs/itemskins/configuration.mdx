@@ -1,0 +1,81 @@
+---
+title: Configuration
+showTitle: false
+seoTitle: ItemSkins | Configuration
+description: Configure skin permissions, previews, menus, and physical skins.
+---
+
+## Configuration
+
+The current build generates its files in `plugins/HyanseItemSkins/`.
+
+| File | Purpose |
+|------|---------|
+| `config.yml` | General options, messages, aliases, and the skin remover item |
+| `gui.yml` | Skin selector title, size, slots, buttons, and menu text |
+| `skins/` | Individual skin definitions |
+| `colors/color-gui.yml` | Color picker menu settings |
+
+Use `/itemskins reload` after editing general settings, the skin selector, or skin files. Restart after changing command aliases or color picker setup.
+
+### General options
+
+These are the defaults in `config.yml`:
+
+```yaml
+options:
+  remove-skin-no-permission: false
+  remove-skin-except-physical-skin: false
+  preview-skin: true
+  physical-require-permission: true
+  show-hand-skin: true
+  debug: false
+```
+
+| Option | Description |
+|--------|-------------|
+| `remove-skin-no-permission` | Remove skins from players who do not have the skin's permission when inventory and gameplay checks run |
+| `remove-skin-except-physical-skin` | Exempt skins applied with physical items from that automatic removal |
+| `preview-skin` | Allow right-click previews in the menu and from physical skins; needs PacketEvents |
+| `physical-require-permission` | Require the skin's permission when using a physical skin |
+| `show-hand-skin` | Select the player's held item when opening `/skins` |
+| `debug` | Log extra information while loading skins |
+
+### Physical skins without permissions
+
+For consumable skins from crates or rewards, you can let players use physical skins without unlocking that skin in the menu:
+
+```yaml
+options:
+  physical-require-permission: false
+  remove-skin-no-permission: true
+  remove-skin-except-physical-skin: true
+```
+
+Update these keys inside your existing `options` section. The exception keeps physically applied skins from being removed by permission checks. Applying a skin through the menu still requires its permission.
+
+### Menus and messages
+
+Edit `gui.yml` to change skin slots, pagination, the owned-skins filter, and the **Clear Skin** button. Edit each skin's `available-item`, `unavailable-item`, and `physical-item` for its display name and lore.
+
+General messages and the skin remover appearance are in `config.yml`. Slimefun items listed under `blacklisted-slimefun-items` cannot be skinned; use lowercase IDs as shown in the default file.
+
+## Common questions
+
+### Why does the item still look normal?
+
+Check that the player has accepted the correct resource pack and that the model matches the material and model data in `available-item`. ItemSkins does not generate resource pack assets. For Nexo or ItemsAdder, confirm that the referenced custom item exists.
+
+### Why is a skin locked or missing?
+
+Grant the exact permission from the skin file and select a compatible item in the menu. For a missing skin, check the YAML, the top-level `material`, and console warnings. Missing integrations or invalid available items can prevent a skin from loading.
+
+### Why does preview do nothing?
+
+Install and enable PacketEvents, set `options.preview-skin: true`, and check the skin's `preview-skin` section.
+
+### Why does a skin disappear after trading the item?
+
+Check `remove-skin-no-permission`. If enabled, the recipient needs the skin permission unless the physical-skin exception applies.
+
+<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>

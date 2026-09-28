@@ -1,0 +1,55 @@
+---
+title: Commands & Permissions
+showTitle: false
+seoTitle: ItemSkins | Commands & Permissions
+description: Player commands, admin commands, and skin permissions.
+---
+
+## Commands & Permissions
+
+<Callout title="Information" type="info">
+  [] = Optional<br/>
+  &lt;&gt; = Required
+</Callout>
+
+| Command | Description | Permission |
+|---------|-------------|------------|
+| `/itemskins` or `/skins` | Open the skin selector as a player | None |
+| `/itemskins reload` | Reload configuration and skins | `itemskins.admin` |
+| `/itemskins physical <player> <material> <skin> [amount]` | Give physical skins to an online player | `itemskins.admin` |
+| `/itemskins preview <player> <material> <skin>` | Show a skin preview to an online player; requires PacketEvents | `itemskins.admin` |
+| `/itemskins remover <player> [amount]` | Give skin removers to an online player | `itemskins.admin` |
+
+The default amount is `1`. Always specify the player when giving a remover.
+
+Default aliases are `/itemskin`, `/is`, `/iskins`, `/skin`, and `/skins`. Change them under `commands-aliases.itemskins` in `config.yml`, then restart the server.
+
+### Skin permissions
+
+Each skin has its own `permission` in its YAML file. For example, the bundled Dark Saber uses `itemskins.sword.darksaber`. Players need that permission to apply it from the menu. `itemskins.admin` grants admin commands; grant skin permissions separately.
+
+Physical skins also require the skin permission by default. You can change this in [Configuration](./configuration).
+
+`itemskins.notifyupdate` lets players receive update notifications when joining. Operators are also notified.
+
+### Finding the skin ID
+
+Use command tab completion to select a material and skin. The material is the target item's Bukkit material, such as `netherite_sword`, rather than a group name like `swords`.
+
+Skin IDs include the containing folder and filename:
+
+| File inside `skins/` | Skin ID |
+|----------------------|---------|
+| `darksaber.yml` | `_darksaber` |
+| `darkmagic/darkmagic_sword.yml` | `darkmagic_darkmagic_sword` |
+| `itemmodel_example/ruby_sword.yml` | `itemmodel_example_ruby_sword` |
+
+```text
+/itemskins physical Steve netherite_sword _darksaber 1
+/itemskins preview Steve netherite_sword _darksaber
+/itemskins remover Steve 1
+```
+
+<Callout type="info">Keep skin filenames and folders stable after giving skins to players. Existing skin items refer to these IDs. For nested folders, only the immediate containing folder is used, so keep IDs unique.</Callout>
+
+<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>

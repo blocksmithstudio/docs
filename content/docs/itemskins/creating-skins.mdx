@@ -1,0 +1,114 @@
+---
+title: Creating Skins
+showTitle: false
+seoTitle: ItemSkins | Creating Skins
+description: Add skins using custom model data, item models, Nexo, or ItemsAdder.
+---
+
+## Creating Skins
+
+Create one YAML file per skin in `plugins/HyanseItemSkins/skins/`. You can organize skins in subfolders. Copy a generated example as your starting point.
+
+### A simple skin
+
+Save this as `skins/ruby_sword.yml`. Replace `1001` with the custom model data used by your resource pack for a diamond sword.
+
+```yaml
+material:
+  - "DIAMOND_SWORD"
+permission: "itemskins.sword.ruby"
+custom-model-data: 1001
+
+preview-skin:
+  type: RIGHT_ARM
+  duration: 5
+  eulerAngle:
+    x: 261
+    y: 278
+    z: 0
+
+available-item:
+  material: DIAMOND_SWORD
+  display-name: "&cRuby Sword &a(Unlocked)"
+  custom-model-data: 1001
+  lore:
+    - "&aLeft-click to apply"
+    - "&7Right-click to preview"
+
+unavailable-item:
+  material: DIAMOND_SWORD
+  display-name: "&cRuby Sword &7(Locked)"
+  custom-model-data: 1001
+  lore:
+    - "&7Right-click to preview"
+
+physical-item:
+  material: PAPER
+  display-name: "&cRuby Sword Skin"
+  lore:
+    - "&7Drag onto a diamond sword to apply."
+```
+
+Run `/itemskins reload`, grant `itemskins.sword.ruby`, and use `/skins` while holding a diamond sword. To give the physical skin, use `/itemskins physical Steve diamond_sword _ruby_sword 1`.
+
+| Setting | Purpose |
+|---------|---------|
+| `material` | Original item types that can receive the skin |
+| `permission` | Permission needed to apply the skin |
+| `custom-model-data` | Model number applied to the skinned item |
+| `available-item` | Unlocked menu item and the source of the skin's appearance |
+| `unavailable-item` | Locked menu item |
+| `physical-item` | The consumable item players drag onto their equipment |
+| `preview-skin` | Preview pose and duration in seconds |
+
+The appearance comes from `available-item`, including its material. Its menu name and lore do not replace the original item's name and lore. The physical item can have a separate appearance.
+
+### Material groups
+
+Instead of listing every material, use one or more built-in groups: `swords`, `pickaxes`, `axes`, `shovels`, `hoes`, `helmets`, `chestplates`, `leggings`, or `boots`.
+
+```yaml
+material:
+  - "swords"
+```
+
+Use explicit material names for other items, such as `BOW` or `CROSSBOW`.
+
+### Item models
+
+For a resource pack using item models, put `item-model` in both `available-item` and `unavailable-item` instead of their `custom-model-data` fields. Remove the top-level `custom-model-data` if the skin no longer uses it.
+
+```yaml
+available-item:
+  material: DIAMOND_SWORD
+  display-name: "&cRuby Sword &a(Unlocked)"
+  item-model: "minecraft:ruby_sword"
+
+unavailable-item:
+  material: DIAMOND_SWORD
+  display-name: "&cRuby Sword &7(Locked)"
+  item-model: "minecraft:ruby_sword"
+```
+
+Keep the other sections from the full example. The bundled `itemmodel_example/ruby_sword.yml` shows this format. Its example expects an item definition at `assets/minecraft/items/ruby_sword.json` in a compatible resource pack.
+
+### Nexo and ItemsAdder
+
+Use an existing custom item as the `material` inside `available-item` and `unavailable-item`:
+
+| Integration | Example value |
+|-------------|---------------|
+| Nexo | `"nexo:forest_helmet"` |
+| ItemsAdder | `"itemsadder:fire_helmet"` |
+
+Keep the top-level `material` set to the original items that can receive the skin, such as `helmets`. Start with the generated files in `nexo_example/` or `itemsadder_example/` and replace the example IDs with real items from your setup. Use the short ItemsAdder ID format shown above in this build.
+
+The integration and its items must be loaded, and players must have its resource pack. Skins whose integration is missing are skipped.
+
+## Physical skins and removers
+
+Give a physical skin with the [admin command](./commands-and-permissions), then pick it up on your cursor and click a compatible item in your player inventory. One physical skin is consumed. Right-click while holding a physical skin to preview it.
+
+Drag a skin remover onto a skinned item to remove its skin and receive a physical skin item back. Leave an inventory slot free for the returned item. Applying and removing physical skins requires a single target item and is disabled in Creative mode. Remove an existing skin before applying another physical skin.
+
+<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>

@@ -98,6 +98,17 @@ export default function Layout({ children }: { children: ReactNode }) {
             ),
           },
           {
+            title: 'ItemSkins',
+            url: '/itemskins/features-and-installation',
+            icon: (
+              <img
+                src="/img/itemskins/banner.jpeg"
+                alt="ItemSkins Logo"
+                style={{ borderRadius: '3px' }}
+              />
+            ),
+          },
+          {
             title: 'NextAnnouncers',
             url: '/nextannouncers/',
             icon: (
