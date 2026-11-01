@@ -17,8 +17,10 @@ through their whole base. NextGens doesn't render the holograms itself, it hooks
 | [FancyHolograms](https://modrinth.com/plugin/fancyholograms) | `FancyHologram` or `FancyHolograms` |
 | [Holographic Displays](https://dev.bukkit.org/projects/holographic-displays) | `HolographicDisplays` |
 
-<Callout>You only need **one** of them. If none of them is installed, NextGens keeps working normally and simply
-disables the holograms.</Callout>
+<Callout>
+You only need **one** of them. If none of them is installed, NextGens keeps working normally and simply
+disables the holograms.
+</Callout>
 
 ## Configuration
 Which plugin gets used is controlled by the `holograms` section in `config.yml`.
@@ -100,11 +102,15 @@ So if you see `No supported hologram plugin found! Generator holograms will be d
 of the three plugins above. And if you see `Configured hologram provider '...' is not available`, check the spelling
 of `holograms.type` against the table at the top of this page.
 
-<Callout type="warning">Changing `holograms.type` requires a **restart**, hologram providers are only resolved once
-when the plugin enables.</Callout>
+<Callout type="warning">
+Changing `holograms.type` requires a **restart**, hologram providers are only resolved once
+when the plugin enables.
+</Callout>
 
 ## Developers
 NextGens' hologram system is open, so your own plugin can provide the holograms instead of the three built-in options.
 See [Developer API](./developer-api) for `HologramManager#register` and the `HologramProvider` interface.
 
-<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>
+<Callout>
+If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).
+</Callout>

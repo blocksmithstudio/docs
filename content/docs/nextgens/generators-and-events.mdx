@@ -10,7 +10,9 @@ layout: ../../../layouts/MainLayout.astro
 Every generator lives inside the `generators` folder, and you can split them into as many files as you want.
 A file can hold one generator or a hundred, NextGens loads all of them on startup.
 
-<Callout>Generator ids must be unique across **all** files. If two generators share the same id, only one of them will be loaded.</Callout>
+<Callout>
+Generator ids must be unique across **all** files. If two generators share the same id, only one of them will be loaded.
+</Callout>
 
 Here is a fully commented example of a single generator.
 
@@ -152,7 +154,9 @@ corruption:
 | `notify.messages` | The reminder message, supports `{amount}` |
 | `blacklisted-generators` | Generator ids that can never be corrupted |
 
-<Callout>The floating **BROKEN** text above a corrupted generator is configured separately, see [Holograms](./holograms).</Callout>
+<Callout>
+The floating **BROKEN** text above a corrupted generator is configured separately, see [Holograms](./holograms).
+</Callout>
 
 ## Events
 Gens events are configured in `events.yml`. You can create as many events as you want and NextGens will run
@@ -207,4 +211,6 @@ events:
 | `start-message` / `end-message` | Broadcasted messages, supports `{name}`, `{duration}` and `{next_duration}` |
 | `blacklisted_generators` | Generator ids that are not affected by the event |
 
-<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>
+<Callout>
+If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).
+</Callout>

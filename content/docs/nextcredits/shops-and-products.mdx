@@ -17,7 +17,9 @@ NextCredits splits the shop into two parts:
 That separation means one product can appear in as many shops as you want, and you never have to repeat its price
 or its reward commands.
 
-<Callout>The menu opened by `/shop` is set with `shop-options.shop-main-menu` in `config.yml`, and defaults to `main_menu`.</Callout>
+<Callout>
+The menu opened by `/shop` is set with `shop-options.shop-main-menu` in `config.yml`, and defaults to `main_menu`.
+</Callout>
 
 ## Creating a product
 Create a file inside the `products` folder, for example `products/crates.yml`. Every product goes under the
@@ -158,8 +160,10 @@ shop-options:
 | `not-enough-credits` | The feedback item when the player can't afford it, supports `{price}` |
 | `no-permission` | The feedback item when the player lacks the product permission, supports `{permission}` |
 
-<Callout>Credits are always taken and logged **before** the reward commands run, so a failed transaction can never
-hand out a free product.</Callout>
+<Callout>
+Credits are always taken and logged **before** the reward commands run, so a failed transaction can never
+hand out a free product.
+</Callout>
 
 ## Discounts
 Discounts are started in-game and are saved across restarts, so you don't need to touch any file to run a sale.
@@ -173,4 +177,6 @@ Discounts are started in-game and are saved across restarts, so you don't need t
 While a discount is running, every menu that shows the product automatically switches to the discounted price
 format and renders your `discount-lines` in place of the `{discount}` lore line.
 
-<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>
+<Callout>
+If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).
+</Callout>

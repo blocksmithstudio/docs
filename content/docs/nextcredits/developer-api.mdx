@@ -9,7 +9,10 @@ layout: ../../../layouts/MainLayout.astro
 ## Developer API
 But firstly we need to put this plugin as our depedencies. And how do we do that?
 We provide a tutorial on how to do that just by below here!<br/>
-<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>
+
+<Callout>
+If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).
+</Callout>
 
 ```xml tab="Maven"
 <dependency>
@@ -82,9 +85,11 @@ NextCreditsAPI api = NextCredits.getAPI();
 | `setCredits(Player player, double amount)` | `void` | Set the player's balance, negative values are clamped to `0` |
 | `setCredits(UUID uuid, double amount)` | `void` | Same as above, works for offline players too |
 
-<Callout type="warning">`getCredits` waits for the player's data to be loaded, so never call it on the main thread for a
+<Callout type="warning">
+`getCredits` waits for the player's data to be loaded, so never call it on the main thread for a
 player who might be offline. The modifying methods (`addCredits`, `removeCredits`, `setCredits`) are asynchronous and
-return immediately, they don't tell you whether the change succeeded.</Callout>
+return immediately, they don't tell you whether the change succeeded.
+</Callout>
 
 Every change made through the API is written to the transaction log with a reason of `api_add`, `api_remove` or
 `api_set`, so you can always trace where a balance change came from.
@@ -99,8 +104,10 @@ Some methods hand you a `User`, which is the cached data of a player.
 | `getCredits()` | `double` | The cached credits balance |
 | `setCredits(double amount)` | `void` | Change the cached balance |
 
-<Callout type="warning">Writing to the `User` object directly only changes the cache, it doesn't create a transaction log
-entry and it can be overwritten by the cross-server sync. Always go through the API methods to change a balance.</Callout>
+<Callout type="warning">
+Writing to the `User` object directly only changes the cache, it doesn't create a transaction log
+entry and it can be overwritten by the cross-server sync. Always go through the API methods to change a balance.
+</Callout>
 
 ## Examples
 Below are multiple examples on how to use the API
@@ -154,4 +161,6 @@ private boolean isNextCreditsEnabled() {
 }
 ```
 
-<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>
+<Callout>
+If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).
+</Callout>

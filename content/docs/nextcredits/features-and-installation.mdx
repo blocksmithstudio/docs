@@ -32,7 +32,10 @@ and every credit change written to a transaction log.
 
 ## Installation
 Here is a quick guide on how to install NextCredits on your Minecraft server.
-<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>
+
+<Callout>
+If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).
+</Callout>
 
 <Steps>
 <Step>
@@ -40,8 +43,11 @@ Here is a quick guide on how to install NextCredits on your Minecraft server.
 
 First, download the latest version of NextCredits from [SpigotMC](https://www.spigotmc.org/resources/nextcredits-multi-server-sync-unlimited-shops-shop-discounts-unlimited-products-and-more.121672/).
 
-<Callout type="warning">**Be alert:** This plugin is only available on its official [SpigotMC](https://www.spigotmc.org/resources/nextcredits-multi-server-sync-unlimited-shops-shop-discounts-unlimited-products-and-more.121672/) page.
-Any versions found on third-party sites like 9Minecraft.net are **unauthorized and may contain malware**. Always download from official sources to stay safe.</Callout>
+<Callout type="warning">
+**Be alert:** This plugin is only available on its official [SpigotMC](https://www.spigotmc.org/resources/nextcredits-multi-server-sync-unlimited-shops-shop-discounts-unlimited-products-and-more.121672/) page.
+Any versions found on third-party sites like 9Minecraft.net are **unauthorized and may contain malware**. Always download from official sources to stay safe.
+</Callout>
+
 </Step>
 
 <Step>
@@ -58,8 +64,11 @@ Drag & Drop the plugin jar to your `plugins` folder.
 | MySQL | No |
 | Redis | No |
 
-<Callout>NextCredits works out of the box with SQLite. MySQL is only required if you want cross-server synchronization,
-and Redis is an optional layer on top of it. RivalCredits is only needed once, if you're migrating your old data over.</Callout>
+<Callout>
+NextCredits works out of the box with SQLite. MySQL is only required if you want cross-server synchronization,
+and Redis is an optional layer on top of it. RivalCredits is only needed once, if you're migrating your old data over.
+</Callout>
+
 </Step>
 
 <Step>
@@ -126,12 +135,16 @@ redis:
 | `timeout` | Connection and socket timeout, in milliseconds |
 | `password` | Leave empty if your Redis instance has no password |
 
-<Callout type="warning">Redis sync **requires MySQL**. If `mysql.enabled` is `false`, NextCredits logs a warning and
-Redis sync never starts. A wrong password stops the sync as well, so check your console after enabling it.</Callout>
+<Callout type="warning">
+Redis sync **requires MySQL**. If `mysql.enabled` is `false`, NextCredits logs a warning and
+Redis sync never starts. A wrong password stops the sync as well, so check your console after enabling it.
+</Callout>
 
 <Callout title="Information" type="info">
 No proxy plugin is needed. NextCredits synchronizes purely through MySQL, with Redis as the optional instant-update
 layer, so you never have to install anything on your BungeeCord or Velocity proxy.
 </Callout>
 
-<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>
+<Callout>
+If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).
+</Callout>

@@ -9,7 +9,10 @@ layout: ../../../layouts/MainLayout.astro
 ## Developer API
 But firstly we need to put this plugin as our depedencies. And how do we do that?
 We provide a tutorial on how to do that just by below here!<br/>
-<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>
+
+<Callout>
+If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).
+</Callout>
 
 ```xml tab="Maven"
 <dependency>
@@ -65,8 +68,10 @@ GeneratorAPI api = NextGens.getApi();
 | `getRandomEvent()` | `Event` | Get a random event |
 | `getEvents()` | `List<Event>` | Get every registered event |
 
-<Callout>Both `getGenerator` and `getActiveGenerator` are overloaded, so make sure you're passing the right object.
-`Generator` is the generator **type** from your configuration, while `ActiveGenerator` is a generator that is **placed** in the world.</Callout>
+<Callout>
+Both `getGenerator` and `getActiveGenerator` are overloaded, so make sure you're passing the right object.
+`Generator` is the generator **type** from your configuration, while `ActiveGenerator` is a generator that is **placed** in the world.
+</Callout>
 
 ### Other managers
 Some systems are not exposed through `GeneratorAPI` and are reached from the plugin instance instead.
@@ -248,8 +253,10 @@ public class MyPlugin extends JavaPlugin {
 }
 ```
 
-<Callout type="warning">Register in your plugin's `onLoad()`, **not** `onEnable()`. NextGens resolves which provider it
-uses while it enables, so anything registered after that point is stored but never picked until the next restart.</Callout>
+<Callout type="warning">
+Register in your plugin's `onLoad()`, **not** `onEnable()`. NextGens resolves which provider it
+uses while it enables, so anything registered after that point is stored but never picked until the next restart.
+</Callout>
 
 | Method | Returns | Description |
 |--------|---------|-------------|
@@ -276,8 +283,10 @@ private void spawnHologram(Location location, List<String> lines) {
 | `isEnabled()` | `boolean` | Whether a usable provider is active |
 | `getProvider()` | `HologramProvider` | The active provider, `null` when no supported plugin is installed |
 
-<Callout>Always check `isEnabled()` before touching `getProvider()`, it returns `null` on servers without any
-hologram plugin.</Callout>
+<Callout>
+Always check `isEnabled()` before touching `getProvider()`, it returns `null` on servers without any
+hologram plugin.
+</Callout>
 
 ## Sell multipliers
 Every sell multiplier in NextGens (events, permissions, sellwands, per-player multipliers and per-world multipliers)
@@ -317,4 +326,6 @@ and free of any blocking calls.
 If you only need to adjust a single sale instead of contributing a permanent multiplier, listen to `SellEvent` and
 use `setMultiplier` as shown above.
 
-<Callout>If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).</Callout>
+<Callout>
+If you need any help please join our [Discord Server](https://muhammaddaffa.com/discord).
+</Callout>
