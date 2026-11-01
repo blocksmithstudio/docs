@@ -91,7 +91,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             url: '/',
             icon: (
               <img
-                src="/img/logo.png"
+                src="/brand/icon-32.png"
                 alt="Blocksmiths logo"
                 style={{ borderRadius: '3px' }}
               />

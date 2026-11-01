@@ -31,12 +31,12 @@ export function ImageButton({
   const card = (
     <div
       className={`
-        relative isolate overflow-hidden rounded-xl
+        relative isolate flex flex-col justify-end overflow-hidden rounded-xl max-w-full
         border border-white/10 bg-transparent
         not-prose [&_*::before]:content-none [&_*::after]:content-none
         ${className}
       `}
-      style={{ width, height }}
+      style={{ width, minHeight: height }}
     >
       {/* Base image */}
       <Image
@@ -68,7 +68,7 @@ export function ImageButton({
 
       {/* Text */}
       {(title || subtitle) && (
-        <div className="absolute bottom-4 left-4 z-[4] text-white drop-shadow-md">
+        <div className="relative z-[4] p-4 pt-24 text-white drop-shadow-md">
           {title && <h2 className="text-2xl font-bold">{title}</h2>}
           {subtitle && <p className="text-sm opacity-80">{subtitle}</p>}
         </div>
@@ -86,7 +86,7 @@ export function ImageButton({
         target={isPopup ? '_blank' : undefined}
         rel={isPopup ? 'noopener noreferrer' : undefined}
         className="
-          group block relative no-underline bg-transparent not-prose
+          group block relative max-w-full no-underline bg-transparent not-prose
           [&::before]:content-none [&::after]:content-none
           transition-transform hover:scale-[1.02]
         "
@@ -97,5 +97,5 @@ export function ImageButton({
   }
 
   // no link fallback
-  return <div className="group transition-transform hover:scale-[1.02]">{card}</div>;
+  return <div className="group max-w-full transition-transform hover:scale-[1.02]">{card}</div>;
 }

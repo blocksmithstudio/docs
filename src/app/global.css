@@ -1,78 +1,54 @@
 @import 'tailwindcss';
-/* === Fumadocs base imports === */
 @import 'fumadocs-ui/css/preset.css';
-@import 'fumadocs-ui/css/black.css'; /* change theme if you want */
 
-/* === Tailwind layers === */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@font-face { font-family: 'Blocksmith Inter'; src: url('/brand/inter-latin.woff2') format('woff2'); font-style: normal; font-weight: 100 900; font-display: swap; }
+@font-face { font-family: 'Blocksmith Sora'; src: url('/brand/sora-latin.woff2') format('woff2'); font-style: normal; font-weight: 100 800; font-display: swap; }
 
-/* invert logo in light mode */
-html:not(.dark) img[alt="Blocksmith logo"] {
-  filter: invert(1) brightness(0.2) contrast(1.2);
-  transition: filter 0.3s ease;
+@theme {
+  --font-sans: 'Blocksmith Inter', Inter, system-ui, sans-serif;
+  --color-fd-background: #f8fafc;
+  --color-fd-foreground: #14213d;
+  --color-fd-muted: #eff6ff;
+  --color-fd-muted-foreground: #52647f;
+  --color-fd-popover: #ffffff;
+  --color-fd-popover-foreground: #14213d;
+  --color-fd-card: #eff6ff;
+  --color-fd-card-foreground: #14213d;
+  --color-fd-border: #dbe6f5;
+  --color-fd-primary: #1d55bb;
+  --color-fd-primary-foreground: #ffffff;
+  --color-fd-secondary: #eff6ff;
+  --color-fd-secondary-foreground: #14213d;
+  --color-fd-accent: #dbeafe;
+  --color-fd-accent-foreground: #14213d;
+  --color-fd-ring: #2465d8;
 }
-
-/* restore normal in dark mode */
-html.dark img[alt="Blocksmith logo"],
-html[data-theme="dark"] img[alt="Blocksmith logo"] {
-  filter: none;
+.dark {
+  --color-fd-background: #14213d;
+  --color-fd-foreground: #f8fafc;
+  --color-fd-muted: #1c2e50;
+  --color-fd-muted-foreground: #bdcce2;
+  --color-fd-popover: #23395d;
+  --color-fd-popover-foreground: #f8fafc;
+  --color-fd-card: #1c2e50;
+  --color-fd-card-foreground: #f8fafc;
+  --color-fd-border: #3e5478;
+  --color-fd-primary: #93c5fd;
+  --color-fd-primary-foreground: #14213d;
+  --color-fd-secondary: #1c2e50;
+  --color-fd-secondary-foreground: #f8fafc;
+  --color-fd-accent: #29466f;
+  --color-fd-accent-foreground: #f8fafc;
+  --color-fd-ring: #22d3ee;
 }
+body { font-family: var(--font-sans); }
+h1, h2, h3, .blocksmith-brand { font-family: 'Blocksmith Sora', Sora, system-ui, sans-serif; letter-spacing: -.02em; }
+.blocksmith-brand { display: inline-flex; align-items: center; gap: 8px; color: var(--color-fd-foreground); font-size: 18px; font-weight: 600; line-height: 1.2; }
+.blocksmith-brand img { flex-shrink: 0; width: 48px; height: 48px; border-radius: 10px; }
+.blocksmith-brand-studio { display: block; margin-top: 2px; font-family: var(--font-sans); font-size: 12px; font-weight: 400; letter-spacing: .06em; }
+:focus-visible { outline: 2px solid var(--color-fd-ring); outline-offset: 3px; }
 
-/* 🚫 do NOT apply filters to search icon, buttons, etc. */
-html:not(.dark) #nd-sidebar [data-search-full],
-html:not(.dark) #nd-sidebar [data-search-full] svg,
-html:not(.dark) #nd-sidebar [data-search-full] img {
-  filter: none !important;
-}
-
-/* === Custom background (works in both dark + light) === */
-body::before,
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-}
-
-/* Light mode (default) — blue glow + BLACK grid */
-body::before {
-  background: radial-gradient(
-    1200px 600px at 50% -10%,
-    rgba(59, 130, 246, 0.08),
-    transparent
-  );
-}
-
-body::after {
-  opacity: 0.1; /* increased from 0.06 to make it darker */
-  background-image:
-    linear-gradient(to right, rgba(0, 0, 0, 0.35) 2px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.35) 2px, transparent 1px);
-  background-size: 40px 40px;
-  -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent);
-  mask-image: linear-gradient(to bottom, black 80%, transparent);
-}
-
-
-/* Dark mode via class or data attribute — stronger glow + WHITE grid */
-html.dark body::before,
-html[data-theme="dark"] body::before {
-  background: radial-gradient(
-    1200px 600px at 50% -10%,
-    rgba(246, 134, 59, 0.18),
-    transparent
-  );
-}
-html.dark body::after,
-html[data-theme="dark"] body::after {
-  opacity: 0.12; /* slightly stronger */
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.25) 2px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.25) 2px, transparent 1px);
-  background-size: 40px 40px;
-  -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent);
-  mask-image: linear-gradient(to bottom, black 80%, transparent);
-}
+h1, h2, h3 { overflow-wrap: anywhere; }
+#nd-subnav { padding-inline: 16px; gap: 8px; }
+#nd-subnav button { flex-shrink: 0; width: 44px; height: 44px; padding: 10px; }
+#nd-subnav button svg { width: 20px; height: 20px; }

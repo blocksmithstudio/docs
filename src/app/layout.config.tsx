@@ -1,5 +1,4 @@
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
-import Image from "next/image";
 
 /**
  * Shared layout configurations
@@ -12,12 +11,10 @@ export const baseOptions: BaseLayoutProps = {
     nav: {
         title: (
             <>
-                <Image
-                    src="/img/blocksmith.png"
-                    alt="Blocksmith logo"
-                    width={150}
-                    height={50}
-                />
+                <span className="blocksmith-brand">
+                    <img src="/brand/logo-white-on-blue.svg" alt="" width={48} height={48} />
+                    <span>blocksmith<span className="blocksmith-brand-studio">studio</span></span>
+                </span>
             </>
         ),
     },
