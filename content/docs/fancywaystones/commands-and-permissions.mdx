@@ -1,0 +1,58 @@
+---
+title: Commands & Permissions
+showTitle: false
+seoTitle: FancyWaystones | Commands & Permissions
+description: Give waystones and travel items, manage recipes, and configure player access.
+---
+
+## Commands & Permissions
+
+`<argument>` is required. `[argument]` is optional. Replace player names and IDs with values from your server.
+
+### Player commands
+
+| Command | Description | Default permission |
+|---------|-------------|--------------------|
+| `/waypoint` | Open the waypoint menu | `fancywaystones.command.waypoint` |
+| `/warpstone` | Open the default warpstone menu | `fancywaystones.command.warpstone` |
+| `/fancywaystoneslanguage <language>` | Choose a language, such as `en_us` | `fancywaystones.language` |
+
+These permissions are enabled for players by default. The default aliases include `/wp` for waypoints, `/warpstones` for warpstones, and `/fwlang` for language selection.
+
+### Administrator commands
+
+The following commands require `fancywaystones.admin`. The main command also has the aliases `/fw`, `/fws`, `/ws`, and `/waystone`.
+
+| Command | Description |
+|---------|-------------|
+| `/fancywaystones give <player> <type> <model> [amount]` | Give waystone items to an online player |
+| `/fancywaystones giveWarpstone <player> <id> [amount]` | Give a warpstone or scroll |
+| `/fancywaystones giveBook <player> <DEATH\|TELEPORTATION> <id>` | Give one book of the selected type |
+| `/fancywaystones open <player>` | Open the waystone menu for a player from in-game |
+| `/fancywaystones reload` | Reload configuration |
+| `/fancywaystones reloadWaystone` | Reload configuration and loaded waystones |
+| `/fancywaystones createRecipe <id>` | Create a recipe through the editor |
+| `/fancywaystones editRecipe <id>` | Edit an existing recipe |
+| `/fancywaystones removeRecipe <id>` | Remove a recipe |
+| `/fancywaystones setIdentifier <id>` | Set the identifier of the waystone you are looking at |
+| `/fancywaystones getIdentifier` | Read that waystone's identifier |
+
+Use tab completion to select IDs. Bundled waystone types include `public`, `private`, `server`, `linked`, and `commercial`. The bundled `modern` model works with these types.
+
+```text
+/fancywaystones give Steve private modern 1
+/fancywaystones giveWarpstone Steve warp_stone 1
+/fancywaystones giveWarpstone Steve warp_scroll 4
+/fancywaystones giveBook Steve TELEPORTATION regular
+/fancywaystones giveBook Steve DEATH regular
+```
+
+### Permissions and limits
+
+`commands.yml` defines command names, aliases, and their permissions. Waystone permissions for activation, visiting, breaking, membership, and limits are configured separately inside each `waystone_types/` file.
+
+For example, bundled public waystones include limit conditions for `fancywaystones.activate.5`, `fancywaystones.activate.10`, and `fancywaystones.activate.20`. Edit `Amount Limitations` in the type file to choose your server's limits.
+
+Restart after changing command names or aliases. See [Configuration](./configuration) for permission conditions and teleport prices.
+
+The original [administrator guide](https://septogeddon.gitbook.io/fancywaystones/fancy-waystones/admins-guide) includes additional management and migration commands.

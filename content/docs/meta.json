@@ -1,4 +1,6 @@
 {
+  "fancywaystones": { "title": "fancywaystones", "type": "folder" },
+  "beaconplus3": { "title": "beaconplus3", "type": "folder" },
   "itemskins": { "title": "itemskins", "type": "folder" },
   "nextcoinflip": { "title": "nextcoinflip", "type": "folder" },
   "nextcollectors": { "title": "nextcollectors", "type": "folder" },

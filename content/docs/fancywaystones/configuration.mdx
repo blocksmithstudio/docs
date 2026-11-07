@@ -1,0 +1,89 @@
+---
+title: Configuration
+showTitle: false
+seoTitle: FancyWaystones | Configuration
+description: Configure discovery, permissions, travel costs, storage, and network travel.
+---
+
+## Configuration
+
+Files are generated in `plugins/FancyWaystones/`.
+
+| File or folder | Purpose |
+|----------------|---------|
+| `config.yml` | Language, economy providers, respawn behavior, and integrations |
+| `commands.yml` | Command names, aliases, and command permissions |
+| `waystone_types/` | Access rules, discovery, prices, and limits for each type |
+| `waystone_models/` | Waystone appearance and components |
+| `recipes/` | Crafting recipes |
+| `warpstone.yml`, `warpstones/` | Default warpstone and individual travel items |
+| `books.yml`, `waypoints.yml` | Books and navigation |
+| `gui.yml`, `menus.yml`, `menu_items.yml` | Menu layout and items |
+| `effects.yml`, `actions/` | Visual effects and configured actions |
+| `storage.yml` | Storage backend and data locations |
+| `languages/` | Translations and messages |
+
+Run `/fancywaystones reload` after editing configuration. Reloading loaded waystones is available through `/fancywaystones reloadWaystone`. Restart after changing storage connections or command registration.
+
+### Automatic discovery
+
+Inside a type file such as `waystone_types/public.yml`, enable proximity discovery to activate nearby waystones for eligible players.
+
+```yaml
+Proximity Discover:
+  Enable: true
+  Message: '{language.proximity-discover}'
+  Check Radius: 10
+  Condition:
+    Criteria: ALWAYS
+```
+
+### Permission conditions
+
+Conditions use `Criteria`. This example lets the owner or a player with the administrator permission rename a waystone.
+
+```yaml
+Rename Condition:
+  Criteria: LOGIC_OR
+  Conditions:
+    - Criteria: IS_OWNER
+    - Criteria: HAS_PERMISSION
+      Permission: fancywaystones.admin
+```
+
+Use `LOGIC_AND` when every condition must pass. Available conditions also include activation, membership, world, type, and land-access checks.
+
+### Teleport prices
+
+Prices belong in the relevant type file. Enable the price components you want to charge. This example charges three levels for each complete 100 blocks of same-world travel.
+
+```yaml
+Price:
+  Distance:
+    Enable: true
+    Divide: 100
+    Floor Divide: true
+    Cost:
+      Level: 3
+```
+
+At 1,000 blocks, this component costs 30 levels. Edit the existing `Price` section and retain the other components you use. `Basic Fee`, `Multiworld`, `Multidimensional`, `Multiserver`, and `Entity` configure other charges.
+
+`Warpstone Price` configures travel through warpstones separately. Economy providers and custom item currencies are defined under `Economy` in `config.yml`.
+
+### Storage and proxy travel
+
+The backend selector is the top-level `Location` key in `storage.yml`. Its values are `FILE`, `SQLITE`, and `MYSQL`.
+
+```yaml
+Location: FILE
+File:
+  Waystone Directory: waystone_data
+  Player Directory: player_data
+```
+
+For cross-server travel, install FancyWaystones on the proxy and participating servers, set `Proxy Mode: true` in each server's `config.yml`, and configure shared MySQL storage with `Location: MYSQL`. Enter your connection details in the existing `MySQL` section and restart the servers and proxy.
+
+Back up both local data and the database before changing storage. Preserve local block and structure data during transfers. The administrator commands include backend migration tools, so plan a migration before switching an existing server.
+
+The original guides cover [type customization](https://septogeddon.gitbook.io/fancywaystones/fancy-waystones/customize-waystone) and [conditions](https://septogeddon.gitbook.io/fancywaystones/fancy-waystones/conditions-and-criterias).

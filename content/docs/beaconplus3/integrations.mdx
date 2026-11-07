@@ -1,0 +1,56 @@
+---
+title: Integrations
+showTitle: false
+seoTitle: BeaconPlus 3 | Integrations
+description: Configure payment providers, contextual placeholders, and team access.
+---
+
+## Integrations
+
+### Economy providers
+
+| Currency | Setup |
+|----------|-------|
+| Vault | Install Vault and a compatible economy provider |
+| PlayerPoints | Install PlayerPoints |
+| Level | Use players' experience levels |
+| Exp | Use players' experience points |
+| Item currencies | Define an item currency under `Economy.Item` in `config.yml` |
+
+The bundled item currency is `Emerald`. To add a diamond currency, merge a new entry into `Economy.Item`.
+
+```yaml
+Economy:
+  Item:
+    Diamond:
+      Currency: Diamond
+      Display Name: Diamonds
+      Format: '{amount}x {economy_currency}'
+      Item:
+        type: DIAMOND
+```
+
+Reference it as `Diamond` in a tier's `Cost`. Configure a matching payment button in `gui.yml` by following the bundled Emerald button's structure and using the new currency ID.
+
+### Contextual placeholders
+
+BeaconPlus uses brace placeholders in menus, items, and messages. Available values depend on the menu or operation supplying the data.
+
+| Placeholder | Context |
+|-------------|---------|
+| `{beacon_title}` | Beacon name or title |
+| `{beacon_world}` | Displayed world name |
+| `{effect_list}` | Effects shown on the beacon item |
+| `{amount}` | Cost or currency amount |
+| `{economy_currency}` | Currency symbol or label |
+| `{language.<key>}` | Message from a language file |
+
+Use the bundled configuration for the field you are changing to see which values are supplied. PlaceholderAPI can expand external values in supported text when installed.
+
+### Access and protection
+
+The plugin supports team entries through integrations such as FactionsBridge. `Access List.Default Team Provider` in `beacon.yml` chooses the provider, with `auto` as the default. Players can manage entries through a beacon's settings menu.
+
+Protection integrations include WorldGuard, Towny, Lands, PlotSquared, and other supported providers. Existing region rules and beacon access conditions should both permit the intended action.
+
+Read [Beacons & Upgrades](./beacons-and-upgrades) for access-list behavior. The original wiki includes [team provider documentation](https://github.com/sunarya-thito/BeaconPlusWiki/wiki/Team-Providers).

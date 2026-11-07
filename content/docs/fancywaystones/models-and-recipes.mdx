@@ -1,0 +1,74 @@
+---
+title: Models & Recipes
+showTitle: false
+seoTitle: FancyWaystones | Models & Recipes
+description: Customize waystone models and create crafting recipes.
+---
+
+## Models & Recipes
+
+Waystone types define behavior. Models define appearance. A `public` waystone can use the same `modern` model as a `private` waystone.
+
+### Models
+
+Model definitions are stored in `waystone_models/`. Use the model ID when giving an item.
+
+```text
+/fancywaystones give Steve public modern 1
+```
+
+A model can contain several components, such as blocks, display entities, holograms, or components supplied by an integration. Components specify their position with `offset` and appearance through their `data` sections.
+
+Start from a bundled model when creating a new one. Keep the original file while editing a copy, give the new file a distinct ID, reload, and test placement, interaction, activation, and removal with that ID.
+
+For custom item or furniture components, install the corresponding provider and load its assets before testing the waystone. See [Integrations](./integrations).
+
+### Crafting recipes
+
+Each recipe has a file in `recipes/`. The filename supplies the recipe ID. This example follows the bundled public waystone recipe.
+
+```yaml
+Result:
+  type: WAYSTONE
+  meta:
+    model: modern
+    id: public
+Shape:
+  - " Y "
+  - " A "
+  - "YZY"
+Materials:
+  Y:
+    type: COBBLESTONE
+  Z:
+    type: OBSIDIAN
+  A:
+    type: GOLD_BLOCK
+```
+
+Each symbol in `Shape` maps to an item under `Materials`. Spaces are empty crafting slots. Keep the model and type IDs consistent with your installed definitions.
+
+You can also use the in-game recipe editor.
+
+```text
+/fancywaystones createRecipe spawn_waystone
+/fancywaystones editRecipe spawn_waystone
+```
+
+Save the recipe in the editor, run `/fancywaystones reload`, and test it in a crafting table. The `Auto Give` section controls recipe discovery on join or ingredient pickup.
+
+### Particles and warm-up effects
+
+Each waystone type selects effects under `Waystone Effect`. Definitions live in `effects.yml`.
+
+```yaml
+Waystone Effect:
+  Idle: null
+  Activated: null
+  Warm Up: wuExample
+  Post Teleport: ptExample
+```
+
+This removes idle and activated particles while retaining the bundled warm-up and post-teleport effects. The warm-up effect also participates in the teleport sequence, so test timing when changing it.
+
+The original [model guide](https://septogeddon.gitbook.io/fancywaystones/fancy-waystones/custom-models) covers more component arrangements.

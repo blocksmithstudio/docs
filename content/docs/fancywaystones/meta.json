@@ -1,0 +1,15 @@
+{
+  "title": "FancyWaystones",
+  "description": "Discover, customize, and connect teleport destinations.",
+  "pages": [
+    "features-and-installation",
+    "commands-and-permissions",
+    "waystones-and-travel",
+    "configuration",
+    "models-and-recipes",
+    "integrations",
+    "[Download on SpigotMC](https://www.spigotmc.org/resources/94376/)"
+  ],
+  "defaultOpen": false,
+  "root": false
+}

@@ -5,6 +5,8 @@ const withMDX = createMDX();
 const nextConfig = {
   async redirects() {
     return [
+      { source: "/fancywaystones", destination: "/fancywaystones/features-and-installation", permanent: false },
+      { source: "/beaconplus3", destination: "/beaconplus3/features-and-installation", permanent: false },
       { source: "/itemskins", destination: "/itemskins/features-and-installation", permanent: false },
       { source: "/nextcollectors",  destination: "/nextcollectors/features", permanent: false },
       { source: "/nextcoinflip",  destination: "/nextcoinflip/features-and-installation", permanent: false },

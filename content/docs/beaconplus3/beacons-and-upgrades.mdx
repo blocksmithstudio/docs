@@ -1,0 +1,64 @@
+---
+title: Beacons & Upgrades
+showTitle: false
+seoTitle: BeaconPlus 3 | Beacons & Upgrades
+description: Place a beacon, buy effects, manage access, and adjust power and range.
+---
+
+## Beacons & Upgrades
+
+Obtain a BeaconPlus item through a configured recipe or `/beaconplus give Steve 1`. Place it on a pyramid made from the block types in `Power Sources` in `beacon.yml`.
+
+### Open the menus
+
+- Right-click a plugin beacon to open its main menu.
+- Sneak and right-click with an empty hand to open its settings.
+- Select an effect to view available upgrades and payment options.
+
+The bundled defaults keep vanilla beacons available. Use the BeaconPlus item when trying the plugin's menus and effects.
+
+### Buy an upgrade
+
+Choose an effect, review its next tier, and select an available payment method. Each tier defines its cost and power consumption. Upgrades unlock higher levels, and selected levels determine which effects run.
+
+If a tier lists Vault, emeralds, and levels, its menu can offer those as alternative payment methods. Each payment button uses its configured currency.
+
+Effect files in `effects/` define the progression. Read [Effects & Conditions](./effects-and-conditions) for a complete example.
+
+### Power and range
+
+The bundled block values are configured in `beacon.yml`.
+
+| Block | Power |
+|-------|-------|
+| Gold block | 1 |
+| Iron block | 1 |
+| Diamond block | 2 |
+| Emerald block | 3 |
+| Netherite block | 4 |
+
+The beacon also starts with `Base Beacon Power`. Active effects consume power. The default range calculator uses remaining power, so activating more effects can reduce range.
+
+`Range Calculator.Power Source` can select `REMAINING_POWER` or `TOTAL_POWER`. `Range Calculator.Mode` supports `EXPONENTIAL`, `PERCENTILE`, and `CLASSIFIED`. Review the matching settings before changing the mode.
+
+### Whitelists and blacklists
+
+Use the beacon's settings menu to manage access. The bundled `Beacon Effect Condition` excludes blacklisted entities and, when a whitelist exists, requires whitelist membership. Team entries can be supplied by an installed team integration.
+
+The effect's own conditions also apply. A player may have access to a beacon while failing an individual effect's permission or entity condition.
+
+### Track placed beacons
+
+Enable tracking in `beacon.yml`, reload, and use `/beacon` to view tracked placements.
+
+```yaml
+Enable Beacon Tracking: true
+```
+
+Set persistent player storage as described in [Configuration](./configuration) to retain player-related data across restarts.
+
+### If an effect does not run
+
+Check the pyramid, remaining power, beam access, selected tier, access lists, and the effect's condition. The bundled setup uses a complete pyramid check and normally requires a sky beam, with a separate Nether exception.
+
+The original wiki covers [managing beacons](https://github.com/sunarya-thito/BeaconPlusWiki/wiki/Managing-Beacons) and [upgrading effects](https://github.com/sunarya-thito/BeaconPlusWiki/wiki/Upgrading-Effects).

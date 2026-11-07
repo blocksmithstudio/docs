@@ -1,0 +1,62 @@
+---
+title: Commands & Permissions
+showTitle: false
+seoTitle: BeaconPlus 3 | Commands & Permissions
+description: Player permissions and administrator commands for BeaconPlus 3.
+---
+
+## Commands & Permissions
+
+`<argument>` is required. `[argument]` is optional.
+
+### Player command
+
+| Command | Description | Permission |
+|---------|-------------|------------|
+| `/beacon` | Open the tracked beacon list | `beaconplus.info.list` |
+
+The command also has the aliases `/beacons`, `/beaconlist`, and `/beaconinfo`. Enable `Enable Beacon Tracking` in `beacon.yml` to populate the list with tracked placements.
+
+### Administrator commands
+
+These commands require `beaconplus.admin`. The aliases for `/beaconplus` are `/bp`, `/bplus`, and `/beaconp`.
+
+| Command | Description |
+|---------|-------------|
+| `/beaconplus help` | Show command help |
+| `/beaconplus reload` | Reload configuration and beacon tasks |
+| `/beaconplus give <player> [amount]` | Give the plugin's beacon item to an online player |
+| `/beaconplus info` | Show task scheduling information |
+| `/beaconplus debug` | Toggle the plugin's debug mode |
+| `/beaconplus overrideRange <range\|OFF>` | Override the range of the beacon you are looking at |
+| `/beaconplus overridePower <power\|OFF>` | Override its power |
+| `/beaconplus overrideClosedState <true\|false\|OFF>` | Override its closed state |
+| `/beaconplus migrate effects` | Convert legacy `effects.yml` entries into individual effect files |
+
+```text
+/beaconplus give Steve 1
+/beaconplus reload
+/beaconplus overrideRange OFF
+```
+
+Override commands are used in-game while targeting a beacon. `OFF` clears an override so normal calculations can apply again. Back up configuration before migrating legacy effects.
+
+### Player permissions
+
+The following defaults are configured under `Permissions` in `beacon.yml`.
+
+| Permission | Allows |
+|------------|--------|
+| `beaconplus.craft` | Crafting plugin beacons |
+| `beaconplus.open` | Opening the main beacon menu |
+| `beaconplus.open.upgrade` | Opening upgrades |
+| `beaconplus.open.settings` | Opening settings |
+| `beaconplus.open.language` | Opening language selection |
+| `beaconplus.upgrade` | Purchasing upgrades |
+| `beaconplus.beacon.place` | Placing upgraded beacons |
+| `beaconplus.beacon.break` | Breaking upgraded beacons |
+| `beaconplus.see.particle` | Seeing particles under the bundled particle condition |
+
+`Allow Place If Has No Effect` and `Allow Break If Has No Effect` can allow unupgraded beacons through their respective checks. Give your normal player group the permissions for the features you want it to use.
+
+The original [command reference](https://github.com/sunarya-thito/BeaconPlusWiki/wiki/Commands-Permissions) has additional context. These commands follow the current 3.1.13 handlers.

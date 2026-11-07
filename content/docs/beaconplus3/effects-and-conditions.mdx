@@ -1,0 +1,82 @@
+---
+title: Effects & Conditions
+showTitle: false
+seoTitle: BeaconPlus 3 | Effects & Conditions
+description: Create effect tiers with prices, power consumption, and player conditions.
+---
+
+## Effects & Conditions
+
+Effect definitions live in `plugins/BeaconPlus3/effects/`. The filename supplies the effect ID. For example, `speed.yml` defines `speed`.
+
+### Create an effect
+
+Save this as `effects/traveler_speed.yml`, then run `/beaconplus reload`.
+
+```yaml
+Display Name: '&bTraveler Speed'
+Item:
+  type: GOLDEN_BOOTS
+Description: '&7Move faster near this beacon.'
+Enabled: true
+Levels:
+  - Cost:
+      Level: 5
+    Description: '&7Speed I'
+    Power Consumption: 1
+    Effects:
+      - Type: POTION_EFFECT
+        Effect: SPEED
+        Amplifier: 0
+        Duration: 300
+    Condition:
+      Type: TYPE_FILTER
+      Filter: PLAYER
+```
+
+This creates one purchasable tier costing five experience levels. It consumes one power while selected and applies Speed I to eligible players.
+
+`Amplifier` is zero-based, so `0` means level I and `1` means level II. Potion `Duration` uses ticks, with 20 ticks per second.
+
+### Add tiers and currencies
+
+Each entry under `Levels` adds another purchasable tier. Give each tier its own `Cost`, `Power Consumption`, and effect settings.
+
+```yaml
+Cost:
+  Vault: 5000
+  Emerald: 10
+  Level: 5
+```
+
+Currency IDs must match the economy services configured in `config.yml`. Install the associated provider for Vault or PlayerPoints. Available menu payment buttons determine which alternatives players can select.
+
+### Require a permission
+
+Use a tier's `Condition` to control who receives its effect. This example requires a player and the `beaconplus.effect.traveler` permission.
+
+```yaml
+Condition:
+  Type: AND
+  Conditions:
+    - Type: TYPE_FILTER
+      Filter: PLAYER
+    - Type: HAS_PERMISSION
+      Permission: beaconplus.effect.traveler
+```
+
+`Upgrade Condition` separately controls purchasing that tier. Use it when a permission should govern the purchase, then configure `Condition` for ongoing effect eligibility.
+
+### Combine conditions
+
+Use `AND` with `Conditions` when every child must pass, `OR` when any child may pass, and `NOT` with a single `Condition` to invert a check. Conditions also cover worlds, items, effects, beacon power, and beacon access lists.
+
+The global `Beacon Effect Condition` in `beacon.yml` works alongside the tier conditions.
+
+### Bundled effects
+
+The generated `effects/` folder includes potion effects, flight, crop and spawner boosts, furnace boosts, mending, experience effects, extra power, extra range, and other examples. Copy a relevant bundled definition when building a different effect type, then choose a distinct filename and review its fields.
+
+`Beacon Effects Order` in `beacon.yml` controls the first effects shown in the menu. Use effect filenames as IDs.
+
+The original wiki provides references for [effect files](https://github.com/sunarya-thito/BeaconPlusWiki/wiki/Effect-File-Structure), [effect types](https://github.com/sunarya-thito/BeaconPlusWiki/wiki/All-Beacon-Effects), and [conditions](https://github.com/sunarya-thito/BeaconPlusWiki/wiki/All-Conditions).

@@ -1,0 +1,15 @@
+{
+  "title": "BeaconPlus 3",
+  "description": "Customize beacon effects, upgrades, power, and access.",
+  "pages": [
+    "features-and-installation",
+    "commands-and-permissions",
+    "beacons-and-upgrades",
+    "effects-and-conditions",
+    "configuration",
+    "integrations",
+    "[Download on SpigotMC](https://www.spigotmc.org/resources/67056/)"
+  ],
+  "defaultOpen": false,
+  "root": false
+}

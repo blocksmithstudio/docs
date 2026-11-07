@@ -1,0 +1,49 @@
+---
+title: Integrations
+showTitle: false
+seoTitle: FancyWaystones | Integrations
+description: Connect economy, custom item, model, protection, and map plugins.
+---
+
+## Integrations
+
+Install compatible versions of the integrations you use, then restart the server.
+
+| Integration | Purpose |
+|-------------|---------|
+| ProtocolLib | Required packet and model support |
+| Vault and an economy provider | Money-based travel costs |
+| ItemsAdder, Nexo, Oraxen, MythicMobs, MMOItems | Custom items in supported item definitions |
+| ModelEngine, CraftEngine | Additional model and furniture components |
+| PlaceholderAPI | Expand supported external placeholders in configured text |
+| WorldGuard, Towny, Lands, and other supported protection providers | Land-access conditions |
+| dynmap and BlueMap | Display configured waystone markers |
+
+### Custom items
+
+An item definition can reference an existing custom item. For an ItemsAdder item, use its full item ID.
+
+```yaml
+Item:
+  type: ITEMSADDER
+  meta:
+    id: my_pack:travel_crystal
+```
+
+Place the definition inside an item field such as the `Item` section of a warpstone. Nexo uses `type: NEXO`, Oraxen uses `type: ORAXEN`, and MythicMobs uses `type: MYTHICMOBS` with the provider's matching `meta.id`.
+
+For a missing item, check that its provider is enabled and the ID loads successfully before reloading FancyWaystones. Players need the provider's resource pack to see its custom appearance.
+
+### Maps and land access
+
+BlueMap options are under `Integrations.BlueMap` in `config.yml`. Each waystone type also controls marker visibility with `Bluemap Render Condition` and `Dynmap Render Condition`.
+
+Land-access behavior is configured through the relevant criteria in each type file. Lands also has `Integrations.Lands.Bind Activation` for activation tied to trusted members.
+
+### Text placeholders
+
+FancyWaystones uses contextual placeholders such as `{waystone_name}`, `{model}`, `{type}`, and `{language.<key>}` in its configuration. Use placeholders from the bundled example for the field you are editing, since available context varies by menu, item, or effect.
+
+External PlaceholderAPI values can be used in supported text fields when that plugin is installed.
+
+The original [integration guide](https://septogeddon.gitbook.io/fancywaystones/fancy-waystones/plugin-integration) includes more item and model examples.

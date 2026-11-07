@@ -109,6 +109,28 @@ export default function Layout({ children }: { children: ReactNode }) {
             ),
           },
           {
+            title: 'FancyWaystones',
+            url: '/fancywaystones/features-and-installation',
+            icon: (
+              <img
+                src="/img/fancywaystones/icon.png"
+                alt="FancyWaystones Logo"
+                style={{ borderRadius: '3px' }}
+              />
+            ),
+          },
+          {
+            title: 'BeaconPlus 3',
+            url: '/beaconplus3/features-and-installation',
+            icon: (
+              <img
+                src="/img/beaconplus3/icon.png"
+                alt="BeaconPlus 3 Logo"
+                style={{ borderRadius: '3px' }}
+              />
+            ),
+          },
+          {
             title: 'NextAnnouncers',
             url: '/nextannouncers/',
             icon: (

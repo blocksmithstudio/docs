@@ -1,0 +1,64 @@
+---
+title: Configuration
+showTitle: false
+seoTitle: BeaconPlus 3 | Configuration
+description: Configure beacon behavior, menus, languages, economy, and persistent storage.
+---
+
+## Configuration
+
+The plugin's data folder is `plugins/BeaconPlus3/`.
+
+| File or folder | Purpose |
+|----------------|---------|
+| `config.yml` | Language, currency displays, animations, and legacy conversion |
+| `beacon.yml` | Pyramid rules, power, range, permissions, tracking, and the beacon item |
+| `gui.yml` | Menus, slots, payment buttons, and text |
+| `storage.yml` | Player and beacon storage |
+| `effects/` | Individual effect definitions |
+| `languages/` | Translations and messages |
+
+Run `/beaconplus reload` after editing effects, menus, or general configuration. Restart after changing database connections.
+
+### Player and beacon storage
+
+For 3.1.13, player storage is selected by `Storage.Type`. Beacon storage is selected separately by `Storage.Beacon Storage Type`.
+
+For a local setup, merge these settings into the existing `Storage` section.
+
+```yaml
+Storage:
+  Type: FILE
+  Beacon Storage Type: WORLD
+  File:
+    Players Directory: Players
+```
+
+This saves player data in the plugin's `Players` folder and beacon data in world storage. Set `Type` explicitly when setting up 3.1.13, since an absent value selects the nonpersistent player backend.
+
+| Data | Storage choices |
+|------|-----------------|
+| Players | `FILE`, `MYSQL` |
+| Beacons | `WORLD`, `FILE`, `SQLITE`, `MYSQL` |
+
+For MySQL, configure the existing `Storage.MySQL` connection section and choose `MYSQL` for the relevant selector. Keep credentials in your private server configuration. Back up plugin data, worlds, and databases before changing backends or migrating an existing server.
+
+### Beacon behavior
+
+The main controls in `beacon.yml` include `Base Beacon Power`, `Power Sources`, `Max Scan Height`, `Perfect Pyramid Structure`, `Beam Through Sky`, and `Beacon Area Type`.
+
+Use `Vanilla Beacon Item.Disable Vanilla` to route vanilla beacons through plugin behavior, and `Vanilla Beacon Item.Disable Recipe` to remove the vanilla recipe. Both options are disabled by default.
+
+Custom crafting recipes live under `Beacon Item.Recipes`. The visible beacon item is configured in `Beacon Item.Display`.
+
+### Menus and languages
+
+Edit `gui.yml` to change menu layout, payment buttons, and item appearances. Preserve the existing slot functions when changing their display.
+
+Choose the server default with `Default Language` in `config.yml`. Edit the matching file in `languages/` for messages. `World Alias` changes the names displayed for worlds.
+
+### Legacy effects
+
+Older configurations can use one `effects.yml`. Back up that file and run `/beaconplus migrate effects` to convert its entries to files in `effects/`. The migration retains the old file as `effects.yml.old` when entries are migrated.
+
+The original [storage reference](https://github.com/sunarya-thito/BeaconPlusWiki/wiki/Storage-Backend) covers additional setups. The selector names above follow the 3.1.13 implementation.

@@ -1,0 +1,76 @@
+---
+title: Features & Installation
+showTitle: false
+seoTitle: FancyWaystones | Features & Installation
+description: Set up discoverable teleport destinations, travel items, and waypoints.
+---
+
+import { Step, Steps } from 'fumadocs-ui/components/steps'
+
+![FancyWaystones banner](/img/fancywaystones/banner.svg)
+
+## Features
+
+FancyWaystones gives players a network of teleport destinations they can place, discover, and manage.
+
+- **Waystone types** — Create public, private, server, linked, and commercial destinations.
+- **Travel items** — Use reusable warpstones, consumable scrolls, and teleportation books.
+- **Custom prices** — Charge experience levels, experience points, money, or items for travel.
+- **Waypoints** — Guide players toward saved locations, waystones, and death locations.
+- **Custom appearance** — Change models, particles, menus, messages, and crafting recipes.
+- **Network travel** — Connect destinations across servers through a proxy and shared MySQL storage.
+
+## Installation
+
+<Steps>
+<Step>
+
+### Download the plugins
+
+Download FancyWaystones from [SpigotMC](https://www.spigotmc.org/resources/94376/) or [BuiltByBit](https://builtbybit.com/resources/21731/). Check the requirements for the version you download. The 1.2.38 build requires Java 21 or newer.
+
+Install a [ProtocolLib](https://www.spigotmc.org/resources/protocollib.1997/) version compatible with your server. FancyWaystones uses it to display its models.
+
+</Step>
+<Step>
+
+### Upload and restart
+
+Put both JARs in your server's `plugins` folder and restart. FancyWaystones generates its configuration in `plugins/FancyWaystones/`.
+
+For money-based prices, also install Vault and an economy provider. Custom item and model integrations are listed under [Integrations](./integrations).
+
+</Step>
+<Step>
+
+### Place your first destinations
+
+As an administrator, give an online player two public waystones. Replace `Steve` with the player's name.
+
+```text
+/fancywaystones give Steve public modern 2
+```
+
+Place them at two different locations. Interact with each one to activate it, then select a destination from the waystone menu.
+
+</Step>
+<Step>
+
+### Customize your setup
+
+Use [Waystones & Travel](./waystones-and-travel) to choose destination types. Configure prices and discovery under [Configuration](./configuration), then run `/fancywaystones reload`.
+
+</Step>
+</Steps>
+
+## Updating
+
+Back up the plugin folder and your storage before replacing the JAR. Stop the server, replace the plugin, and start it again. Keep your existing configuration while reviewing the new release's changes.
+
+The original [installation guide](https://septogeddon.gitbook.io/fancywaystones/fancy-waystones/installation) also covers proxy setup. Current storage examples are in [Configuration](./configuration).
+
+<Callout>
+
+If you need help, join our [Discord Server](https://muhammaddaffa.com/discord).
+
+</Callout>

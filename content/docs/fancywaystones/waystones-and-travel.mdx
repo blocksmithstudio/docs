@@ -1,0 +1,63 @@
+---
+title: Waystones & Travel
+showTitle: false
+seoTitle: FancyWaystones | Waystones & Travel
+description: Choose waystone types and use warpstones, books, and waypoints.
+---
+
+## Waystones & Travel
+
+Place a waystone, activate it by interacting with it, and discover another destination. Open a waystone's menu to travel between accessible destinations. Sneak and interact with a waystone to open its settings when you have access.
+
+### Choose a waystone type
+
+| Type | Use |
+|------|-----|
+| `public` | Destinations players discover and activate |
+| `private` | Personal destinations with member access |
+| `server` | Shared server locations that are available without discovery |
+| `linked` | Direct travel between matching link groups |
+| `commercial` | Public destinations with owner commissions |
+
+Each type has its own conditions in `waystone_types/`. Those files control discovery, listing, access, prices, ownership, and item drops.
+
+### Link destinations
+
+Give yourself two linked waystones.
+
+```text
+/fancywaystones give Steve linked modern 2
+```
+
+Place both stones, then open their settings. Give the first stone a **Source Group** and give the destination the matching **Target Group**. To provide return travel, configure the destination's source group to match the first stone's target group.
+
+Interacting with a linked waystone travels directly to a matching destination. Keep group names consistent when building several routes.
+
+### Warpstones and scrolls
+
+Both items open a destination menu away from a placed waystone.
+
+| Item ID | Bundled behavior |
+|---------|------------------|
+| `warp_stone` | Reusable, with a 30-second cooldown |
+| `warp_scroll` | Consumed on use, with a 10-second cooldown |
+
+Their definitions are in `warpstones/`. `Behavior.Charge Players` controls charging, `Behavior.One Time Item` controls consumption, and `Behavior.Cooldown` sets the delay between uses.
+
+`warpstone.yml` selects the item used by `/warpstone` through `Default Warpstone`.
+
+### Books
+
+An empty teleportation book binds to an eligible waystone when you interact with that stone while holding the book. Using the bound book takes you back to that destination. A death book returns you to a saved death location.
+
+Book types, item appearances, use conditions, and death-location expiry are configured in `books.yml`. The bundled `regular` death book uses a ten-minute expiry.
+
+### Waypoints
+
+Run `/waypoint` to manage navigation targets. Waypoints can guide you toward personal locations, waystones, death locations, and configured server destinations. Configure the menu and tracking behavior in `waypoints.yml`, and server locations in `server_waypoints/`.
+
+### Respawn behavior
+
+To use activated waystones as respawn candidates, enable `Respawn To The Closest Waystone or Bed` in `config.yml`. This setting is disabled by default. The waystone type's `Respawn Point Condition` also applies.
+
+Read [Configuration](./configuration) to adjust costs and access. The original [player guide](https://septogeddon.gitbook.io/fancywaystones/fancy-waystones/players-guide) provides further gameplay examples.
