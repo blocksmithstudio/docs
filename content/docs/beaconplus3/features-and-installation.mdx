@@ -27,7 +27,11 @@ BeaconPlus 3 adds upgradeable effects, configurable power, and player access lis
 
 ### Download BeaconPlus 3
 
-Download the plugin from [SpigotMC](https://www.spigotmc.org/resources/67056/) or [BuiltByBit](https://builtbybit.com/resources/10720/). Use the Java and server versions required by your download. The 3.1.13 build targets Java 21.
+Download BeaconPlus 3 from [SpigotMC](https://www.spigotmc.org/resources/67056/) or [BuiltByBit](https://builtbybit.com/resources/10720/).
+
+**BeaconPlus 3 3.1.14 supports 1.21 - 26.3.** Versions below 1.21 are no longer supported.
+
+For Paper, use Java 21 on 1.21 through 1.21.11 and Java 25 on 26.1 through 26.3. See the [Paper requirements](https://docs.papermc.io/paper/getting-started/#requirements).
 
 </Step>
 <Step>
@@ -49,7 +53,7 @@ Storage:
   Beacon Storage Type: WORLD
 ```
 
-The 3.1.13 player-data selector is `Storage.Type`. Read [Configuration](./configuration) for storage details, then restart to apply your setup.
+The player-data selector is `Storage.Type`. Read [Configuration](./configuration) for storage details, then restart to apply your setup.
 
 </Step>
 <Step>
@@ -67,6 +71,10 @@ Place it on a valid pyramid and right-click it to open its menu. Give players th
 </Step>
 </Steps>
 
+## Updating
+
+Before upgrading, back up your worlds, the `plugins/BeaconPlus3/` folder, and any database used for plugin storage. Stop the server, replace the old BeaconPlus JAR with `BeaconPlus-3.1.14.jar`, and start it again with your existing configuration.
+
 ## Next steps
 
 Follow [Beacons & Upgrades](./beacons-and-upgrades) for player controls and [Effects & Conditions](./effects-and-conditions) to create an effect tier.
@@ -75,6 +83,6 @@ The original [BeaconPlus 3 wiki](https://github.com/sunarya-thito/BeaconPlusWiki
 
 <Callout>
 
-If you need help, join our [Discord Server](https://muhammaddaffa.com/discord).
+If you need help, join our [Discord Server](https://blocksmith.studio/discord).
 
 </Callout>

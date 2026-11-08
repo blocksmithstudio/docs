@@ -22,7 +22,7 @@ Run `/beaconplus reload` after editing effects, menus, or general configuration.
 
 ### Player and beacon storage
 
-For 3.1.13, player storage is selected by `Storage.Type`. Beacon storage is selected separately by `Storage.Beacon Storage Type`.
+Player storage is selected by `Storage.Type`. Beacon storage is selected separately by `Storage.Beacon Storage Type`.
 
 For a local setup, merge these settings into the existing `Storage` section.
 
@@ -34,7 +34,7 @@ Storage:
     Players Directory: Players
 ```
 
-This saves player data in the plugin's `Players` folder and beacon data in world storage. Set `Type` explicitly when setting up 3.1.13, since an absent value selects the nonpersistent player backend.
+This saves player data in the plugin's `Players` folder and beacon data in world storage. Set `Type` explicitly, since an absent value selects the nonpersistent player backend.
 
 | Data | Storage choices |
 |------|-----------------|
@@ -61,4 +61,4 @@ Choose the server default with `Default Language` in `config.yml`. Edit the matc
 
 Older configurations can use one `effects.yml`. Back up that file and run `/beaconplus migrate effects` to convert its entries to files in `effects/`. The migration retains the old file as `effects.yml.old` when entries are migrated.
 
-The original [storage reference](https://github.com/sunarya-thito/BeaconPlusWiki/wiki/Storage-Backend) covers additional setups. The selector names above follow the 3.1.13 implementation.
+The original [storage reference](https://github.com/sunarya-thito/BeaconPlusWiki/wiki/Storage-Backend) covers additional setups.
